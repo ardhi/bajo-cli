@@ -1,0 +1,53 @@
+{
+  "name": "bajo-cli",
+  "version": "0.1.0",
+  "description": "CLI Interface & plugin for Bajo Framework",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "bajo": "./index.js"
+  },
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ardhi/bajo-cli.git"
+  },
+  "keywords": [
+    "cli",
+    "interface",
+    "command",
+    "commandline",
+    "bajo",
+    "framework",
+    "modular"
+  ],
+  "author": "Ardhi Lukianto <ardhi@lukianto.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ardhi/bajo-cli/issues"
+  },
+  "homepage": "https://github.com/ardhi/bajo-cli#readme",
+  "dependencies": {
+    "@inquirer/checkbox": "^1.3.3",
+    "@inquirer/confirm": "^2.0.4",
+    "@inquirer/prompts": "^2.3.0",
+    "@inquirer/rawlist": "^1.2.3",
+    "bajo": "file:../bajo",
+    "boxen": "^7.1.0",
+    "cli-table3": "^0.6.3",
+    "delay": "^6.0.0",
+    "fast-glob": "^3.3.0",
+    "fs-extra": "^11.1.1",
+    "global-modules-path": "^3.0.0",
+    "listr2": "^6.6.0",
+    "lodash": "^4.17.21",
+    "node-fetch": "^3.3.1",
+    "nypm": "^0.2.2",
+    "ora": "^6.3.1",
+    "terminate": "^2.6.1",
+    "validate-npm-package-name": "^5.0.0",
+    "yargs": "^17.7.2"
+  }
+}
