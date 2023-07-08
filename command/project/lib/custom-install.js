@@ -7,10 +7,11 @@ import path from 'path'
 
 const plugins = [
   { value: 'bajo-config' },
-  { value: 'bajo-logger' },
   { value: 'bajo-emitter' },
+  { value: 'bajo-logger' },
   { value: 'bajo-mqtt' },
-  { value: 'bajo-sp' },
+  { value: 'bajo-serialport' },
+  { value: 'bajo-sysinfo' },
   { value: 'bajo-web' }
 ]
 
