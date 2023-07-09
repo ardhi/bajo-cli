@@ -6,8 +6,7 @@ import ora from 'ora'
 import delay from 'delay'
 import fs from 'fs-extra'
 import fetch from 'node-fetch'
-
-const npmUrl = 'https://registry.npmjs.com'
+import getNpmPkgInfo from '../../../bajo/helper/get-npm-pkg-info.js'
 
 async function dirNameCheck (argv, cwd) {
   if (!cwd) cwd = pathResolve(process.cwd())
@@ -24,11 +23,7 @@ async function dirNameCheck (argv, cwd) {
   }
   if (argv.checkRemote) {
     try {
-      const resp = await fetch(`${npmUrl}/${encodeURIComponent(argv.name)}`, {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
+      const resp = await getNpmPkgInfo(argv.name)
       if (resp.status !== 404) {
         spinner.fail(`Package name '${argv.name}' is taken on npm registry. Aborted!`)
         process.exit(1)

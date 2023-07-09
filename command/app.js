@@ -12,11 +12,13 @@ const project = buildCliSubcommand({
   command: 'app <action>',
   aliases: ['a'],
   describe: 'Apps manager',
+  /*
   builder (yargs) {
     yargs.positional('action', {
       describe: 'Enter your action',
     })
   },
+  */
   commands
 })
 

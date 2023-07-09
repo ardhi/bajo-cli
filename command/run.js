@@ -9,7 +9,8 @@ const run = buildCliSubcommand({
   aliases: ['r'],
   describe: `Shortcut for 'bajo app run'`,
   builder,
-  handler
+  handler,
+  epilog: false
 })
 
 export default run

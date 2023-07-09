@@ -18,8 +18,9 @@ const run = {
     yargs.positional('args', {
       describe: 'Optional one or more arguments'
     })
-    yargs.option('run-tool', {
-      describe: 'Run side tool instead of main program (if any)',
+    yargs.option('tool', {
+      describe: 'Run side tool (if any) instead of main program',
+      alias: 't',
       type: 'string'
     })
     yargs.option('spawn', {
@@ -31,14 +32,15 @@ const run = {
   },
   async handler (argv) {
     const { cwd, pkg } = getCwdPkg({ argv, type: 'app' })
+    if (_.has(argv, 'tool')) argv.spawn = false
     if (argv.spawn) {
       const params = process.argv.slice(process.argv[2] === 'run' ? 4 : 5)
       params.unshift(`--spawn=${argv.spawn}`)
       params.unshift(`${cwd}/${pkg.main}`)
       params.push(`--cwd=${cwd}`)
-      const spinner = ora(`Spawn ${pkg.name}`).start()
+      const spinner = ora(`Spawning ${pkg.name}...`).start()
       const child = spawn('node', params)
-      spinner.succeed()
+      spinner.succeed(`'${pkg.name}' spawned, pid: ${child.pid}`)
       child.stdout.on('data', d => {
         process.stdout.write(d.toString())
       })
