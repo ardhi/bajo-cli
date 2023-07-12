@@ -1,8 +1,8 @@
 import { horizontal, vertical } from '../../lib/create-table.js'
 
 async function prettyPrint (obj, print = false) {
-  const { importPackage } = this.bajo.helper
-  const _ = await importPackage('lodash::bajo')
+  const { importPkg } = this.bajo.helper
+  const _ = await importPkg('lodash::bajo')
   let result
   if (_.isString(obj) || _.isNumber(obj)) result = horizontal([{ obj }], { print, noHeader: true })
   else if (_.isArray(obj)) result = horizontal(obj, { print })

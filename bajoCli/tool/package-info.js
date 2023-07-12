@@ -2,9 +2,9 @@ import getNpmPkgInfo from '../../bajo/helper/get-npm-pkg-info.js'
 import { input } from '@inquirer/prompts'
 
 async function packageInfo (path, args) {
-  const { getConfig, importPackage, saveAsDownload, print } = this.bajo.helper
+  const { getConfig, importPkg, saveAsDownload, print } = this.bajo.helper
   const { prettyPrint } = this.bajoCli.helper
-  const [_, stripAnsi] = await importPackage('lodash::bajo', 'strip-ansi::bajo-cli')
+  const [_, stripAnsi] = await importPkg('lodash::bajo', 'strip-ansi::bajo-cli')
   let [pkg] = args
   if (_.isEmpty(pkg)) {
     pkg = await input({
