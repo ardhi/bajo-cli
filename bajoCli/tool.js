@@ -11,13 +11,13 @@ async function tool ({ path, args = [] }) {
   })
   if (!path) {
     path = await select({
-      message: `Please select a method:`,
+      message: print.format(`Please select a method:`),
       pageSize: 10,
       choices
     })
   }
   const tool = _.find(choices, { value: path })
-  if (!tool) print.fatal(`Unsupported methods '${path}'`)
+  if (!tool) print.fatal(`Unknown method '%s'`, path)
   const mod = await import(pathResolve(tool.file, true))
   await mod.default.call(this, path, args)
 }

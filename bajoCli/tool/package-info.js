@@ -8,23 +8,26 @@ async function packageInfo (path, args) {
   let [pkg] = args
   if (_.isEmpty(pkg)) {
     pkg = await input({
-      message: 'Package name:',
-      validate: (item) => !_.isEmpty(item)
+      message: print.format('Package name:'),
+      validate: (item) => _.isEmpty(item) ? print.format('You must provide a valid value') : true
     })
   }
-  if (!pkg) print.fatal('You must provide a package name')
   const config = getConfig()
+  const spinner = print.bora('Retrieving...').start()
   const resp = await getNpmPkgInfo(pkg)
-  if (resp.status === 404) print.fatal(`Unknown package '${pkg}'. Aborted!`)
-  if (resp.status !== 200) print.fatal(`Can't check '${pkg}' against npm registry. Aborted!`)
+  if (resp.status === 404) spinner.fatal(`Unknown package '%s'. Aborted!`, pkg)
+  if (resp.status !== 200) spinner.fatal(`Can't check '%s' against npm registry. Aborted!`, pkg)
   const omitted = config.full ? [] : ['readme', 'versions']
   let result = _.omit(await resp.json(), omitted)
   result = config.pretty ? (await prettyPrint(result)) : JSON.stringify(result, null, 2)
   if (config.save) {
-    const file = `/${path}.${config.pretty ? 'txt' : 'json'}`
+    const file = `/${path}/${pkg}.${config.pretty ? 'txt' : 'json'}`
     const fullPath = await saveAsDownload(file, stripAnsi(result), 'bajoCli')
-    print.ora(`Saved as '${fullPath}'`, true).succeed()
-  } else console.log(result)
+    spinner.succeed(`Saved as '%s'`, fullPath, { skipSilent: true })
+  } else {
+    spinner.succeed('Done!')
+    console.log(result)
+  }
 }
 
 export default packageInfo
