@@ -1,7 +1,7 @@
 import buildCliSubcommand from '../lib/build-sub-command.js'
 import { commands } from './plugin/index.js'
 import { __ } from '../lib/translate.js'
-import _ from 'lodash'
+import {} from 'lodash-es'
 
 export const usage = 'Bajo plugin is a regular npm package with custom structure. You can install globaly ' +
   `through 'npm install -g <name>'. By installing as a global package, you can import and use it like any ` +

@@ -3,7 +3,7 @@ import terminate from 'terminate/promise.js'
 import epilog from '../../lib/epilog.js'
 import getCwdPkg from '../../lib/get-cwd-pkg.js'
 import boot from 'bajo/boot/index.js'
-import _ from 'lodash'
+import { has } from 'lodash-es'
 import ora from 'ora'
 import { __ } from '../../lib/translate.js'
 
@@ -33,7 +33,7 @@ const run = {
   },
   async handler (argv) {
     const { cwd, pkg } = getCwdPkg({ argv, type: 'app' })
-    if (_.has(argv, 'tool')) argv.spawn = false
+    if (has(argv, 'tool')) argv.spawn = false
     if (argv.spawn) {
       const params = process.argv.slice(process.argv[2] === 'run' ? 4 : 5)
       params.unshift(`--spawn=${argv.spawn}`)

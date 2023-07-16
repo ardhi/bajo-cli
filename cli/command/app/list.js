@@ -4,7 +4,7 @@ import fastGlob from 'fast-glob'
 import epilog from '../../lib/epilog.js'
 import listPackages from '../../lib/list-packages.js'
 import { __ } from '../../lib/translate.js'
-import _ from 'lodash'
+import { map, dropRight, filter } from 'lodash-es'
 
 const list = {
   command: 'list',
@@ -17,10 +17,10 @@ const list = {
     const nodeModules = getGlobalModuleDir(null, false)
     const pattern = `${nodeModules}/**/*/app/bajo`
     let files = await fastGlob(pattern, { onlyDirectories: true })
-    files = _.map(_.filter(files, f => {
-      f = _.dropRight(f.split('/'), 2).join('/')
+    files = map(filter(files, f => {
+      f = dropRight(f.split('/'), 2).join('/')
       return isValidApp(f)
-    }), f => _.dropRight(f.split('/'), 2).join('/'))
+    }), f => dropRight(f.split('/'), 2).join('/'))
     listPackages(files, { emptyFiles: __(`No app installed yet`) })
   }
 }

@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import {} from 'lodash-es'
 import fs from 'fs-extra'
 import ensureDir from '../lib/ensure-dir.js'
 import writePackageJson from '../lib/write-package-json.js'

@@ -1,7 +1,7 @@
 import buildCliSubcommand from '../lib/build-sub-command.js'
 import { __ } from '../lib/translate.js'
 import { commands } from './project/index.js'
-import _ from 'lodash'
+import {} from 'lodash-es'
 
 export const usage = '...'
 

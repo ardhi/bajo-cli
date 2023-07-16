@@ -1,25 +1,25 @@
 import Table from 'cli-table3'
-import _ from 'lodash'
+import { map, snakeCase, capitalize, isEmpty, isArray, forOwn, isPlainObject, keys } from 'lodash-es'
 
 const defTitleFn = (text = '') => {
-  return _.map(_.snakeCase(text).split('_'), t => _.capitalize(t)).join(' ')
+  return map(snakeCase(text).split('_'), t => capitalize(t)).join(' ')
 }
 
 export function vertical (obj, opts) {
   const { print = true, titleFn = defTitleFn, style = { head: [] } } = opts || {}
-  if (_.isEmpty(obj)) return
+  if (isEmpty(obj)) return
   const tbl = new Table({
     style
   })
-  _.forOwn(obj, (v, k) => {
-    if (_.isArray(v)) {
-      if (_.isPlainObject(v[0])) v = horizontal(v, { print: false })
+  forOwn(obj, (v, k) => {
+    if (isArray(v)) {
+      if (isPlainObject(v[0])) v = horizontal(v, { print: false })
       else v = v.join(', ')
-    } else if (_.isPlainObject(v)) {
+    } else if (isPlainObject(v)) {
       v = vertical(v, { print: false })
     }
 
-    tbl.push(_.set({}, titleFn ? titleFn(k) : k, v))
+    tbl.push(set({}, titleFn ? titleFn(k) : k, v))
   })
   const text = tbl.toString()
   return print ? console.log(text) : text
@@ -27,10 +27,10 @@ export function vertical (obj, opts) {
 
 export function horizontal (coll, opts) {
   const { print = true, titleFn = defTitleFn, noHeader, style = { head: [] } } = opts || {}
-  if (_.isEmpty(coll)) return
-  const head = _.keys(coll[0])
+  if (isEmpty(coll)) return
+  const head = keys(coll[0])
   const tbl = new Table({
-    head: noHeader ? [] : _.map(head, h => titleFn ? titleFn(h) : h),
+    head: noHeader ? [] : map(head, h => titleFn ? titleFn(h) : h),
     style,
   })
   for (const c of coll) {

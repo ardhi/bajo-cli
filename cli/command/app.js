@@ -1,7 +1,7 @@
 import buildCliSubcommand from '../lib/build-sub-command.js'
 import { __ } from '../lib/translate.js'
 import { commands } from './app/index.js'
-import _ from 'lodash'
+import {} from 'lodash-es'
 
 export const usage = 'Bajo app is a regular npm package with custom structure you can install globaly ' +
   `through 'npm install -g <name>'. You can allow them to run later with a terminal by typing: ` +

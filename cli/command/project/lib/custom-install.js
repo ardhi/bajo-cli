@@ -1,6 +1,6 @@
 import rawlist from '@inquirer/rawlist'
 import checkbox from '@inquirer/checkbox'
-import _ from 'lodash'
+import { findIndex, get, map, cloneDeep } from 'lodash-es'
 import fs from 'fs-extra'
 import listTpl from '../tpl/list-tpl.js'
 import path from 'path'
@@ -28,7 +28,7 @@ async function customInstall ({ argv, type, session }) {
     } catch (err) {}
     choices.push({ value: name, name: `${name} - ${info}` })
   }
-  const def = _.findIndex(choices, { value: _.get(session, 'ext.tpl') })
+  const def = findIndex(choices, { value: get(session, 'ext.tpl') })
   ext.tpl = await rawlist({
     message: __(`Choose which %s template you want to use:`, type),
     default: def, // TODO: it doesn't work!
@@ -40,30 +40,30 @@ async function customInstall ({ argv, type, session }) {
       { value: 'global', name: __('Global, rely on bajo executable to start') },
       { value: 'hybrid', name: __('Hybrid, the best of both worlds') }
     ]
-    const def = _.findIndex(choices, { value: _.get(session, 'ext.bootFile')})
+    const def = findIndex(choices, { value: get(session, 'ext.bootFile')})
     ext.bootFile = await rawlist({
       message: __('What kind of app do you want to create?'),
       default: def, // TODO: it doesn't work!
       choices
     })
-    choices = _.map(_.cloneDeep(plugins), p => {
-      p.checked = _.get(session, 'ext.plugins', []).includes(p.value)
+    choices = map(cloneDeep(plugins), p => {
+      p.checked = get(session, 'ext.plugins', []).includes(p.value)
       return p
     })
     ext.plugins = await checkbox({
       message: __('Choose which plugins should be included by default:'),
-      default: _.get(session, 'ext.plugins', []),
+      default: get(session, 'ext.plugins', []),
       choices
     })
 
   } else if (type === 'plugin') {
-    const choices = _.map(_.cloneDeep(plugins), p => {
-      p.checked = _.get(session, 'ext.dependencies', []).includes(p.value)
+    const choices = map(cloneDeep(plugins), p => {
+      p.checked = get(session, 'ext.dependencies', []).includes(p.value)
       return p
     })
     ext.dependencies = await checkbox({
       message: __('Choose other plugins that your plugin dependent of:'),
-      default: _.get(session, 'ext.dependencies', []),
+      default: get(session, 'ext.dependencies', []),
       choices
     })
   }

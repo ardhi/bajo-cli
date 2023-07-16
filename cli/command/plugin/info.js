@@ -1,6 +1,6 @@
 import epilog from '../../lib/epilog.js'
 import { vertical } from '../../lib/create-table.js'
-import _ from 'lodash'
+import { pick } from 'lodash-es'
 import getCwdPkg from '../../lib/get-cwd-pkg.js'
 import { __ } from '../../lib/translate.js'
 
@@ -17,7 +17,7 @@ const info = {
   },
   async handler (argv) {
     const { pkg } = getCwdPkg({ argv, type: 'plugin' })
-    vertical(_.pick(pkg, ['name', 'version', 'description', 'author', 'license', 'homepage']))
+    vertical(pick(pkg, ['name', 'version', 'description', 'author', 'license', 'homepage']))
   }
 }
 

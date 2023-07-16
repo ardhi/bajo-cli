@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import {} from 'lodash-es'
 import dirNameCheck from './lib/dir-name-check.js'
 import interactive from './create-plugin/interactive.js'
 import withTpl from './create-plugin/with-tpl.js'

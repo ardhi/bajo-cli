@@ -1,11 +1,11 @@
-import _ from 'lodash'
+import { map } from 'lodash-es'
 import Epilog from './epilog.js'
 import { __, print } from './translate.js'
 
 function buildSubCommand ({ command, aliases, describe, commands, builder, handler, example, epilog = true } = {}) {
   if (!handler) {
     handler = async function (argv) {
-      const cmds = _.map(commands, c => {
+      const cmds = map(commands, c => {
         return `'${c.command.split(' ')[0]}'`
       })
       if (!cmds.includes(argv.action)) print(`Invalid action '%s'. Please only use one of these: %s`, argv.action, cmds.join(', '))
@@ -13,7 +13,7 @@ function buildSubCommand ({ command, aliases, describe, commands, builder, handl
   }
   const extBuilder = function (yargs) {
     if (builder) builder(yargs)
-    if (commands) _.map(commands, cmd => {
+    if (commands) map(commands, cmd => {
       yargs.command(cmd)
     })
     if (epilog !== false) yargs.epilog(Epilog)
