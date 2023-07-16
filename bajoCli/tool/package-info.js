@@ -8,8 +8,8 @@ async function packageInfo (path, args) {
   let [pkg] = args
   if (_.isEmpty(pkg)) {
     pkg = await input({
-      message: print.format('Package name:'),
-      validate: (item) => _.isEmpty(item) ? print.format('You must provide a valid value') : true
+      message: print.__('Package name:'),
+      validate: (item) => _.isEmpty(item) ? print.__('You must provide a valid value') : true
     })
   }
   const config = getConfig()

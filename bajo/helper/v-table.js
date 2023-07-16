@@ -1,4 +1,4 @@
-import { vertical } from '../../lib/create-table.js'
+import { vertical } from '../../cli/lib/create-table.js'
 
 const vTable = (...args) => {
   return vertical(...args)

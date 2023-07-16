@@ -1,14 +1,18 @@
 #!/usr/bin/env node
-import { commands } from './command/index.js'
-import epilog from './lib/epilog.js'
+import { commands } from './cli/command/index.js'
+import epilog from './cli/lib/epilog.js'
 import yargs from 'yargs'
+import { getLang, __ } from './cli/lib/translate.js'
 
-yargs(process.argv.slice(2))
-  .scriptName('bajo')
-  .usage('Usage: $0 <command> [options]')
+const lang = getLang()
+
+const y = yargs(process.argv.slice(2))
+if (lang) y.locale(lang)
+y.scriptName('bajo')
+  .usage(__('Usage: $0 <command> [options]'))
   .version().alias('version', 'v')
   .command(commands)
-  .demandCommand(1, 'Please provide your command')
+  .demandCommand(1, __('Please provide your command'))
   .help().alias('help', 'h')
   .epilog(epilog)
   .strictCommands()

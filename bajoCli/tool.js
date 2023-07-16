@@ -11,7 +11,7 @@ async function tool ({ path, args = [] }) {
   })
   if (!path) {
     path = await select({
-      message: print.format(`Please select a method:`),
+      message: print.__(`Please select a method:`),
       pageSize: 10,
       choices
     })

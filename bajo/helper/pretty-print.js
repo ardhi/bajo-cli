@@ -1,4 +1,4 @@
-import { horizontal, vertical } from '../../lib/create-table.js'
+import { horizontal, vertical } from '../../cli/lib/create-table.js'
 
 async function prettyPrint (obj, print = false) {
   const { importPkg } = this.bajo.helper
