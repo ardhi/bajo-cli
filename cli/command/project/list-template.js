@@ -8,7 +8,7 @@ import { __ } from '../../lib/translate.js'
 const listTemplate = {
   command: __('%s <%s>', 'list-template', 'type'),
   aliases: ['lt'],
-  describe: __(`List project templates`),
+  describe: __('List project templates'),
   builder (yargs) {
     yargs.positional('type', {
       describe: __('Template type'),

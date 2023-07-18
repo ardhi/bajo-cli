@@ -10,10 +10,10 @@ import { __ } from '../../lib/translate.js'
 const run = {
   command: __('%s <%s> [%s...]', 'run', 'name', 'args'),
   aliases: ['r'],
-  describe: __(`Run named app`),
+  describe: __('Run named app'),
   builder (yargs) {
     yargs.positional('name', {
-      describe: __(`App name. Use '.' for local app`),
+      describe: __('App name. Use \'.\' for local app'),
       type: 'string'
     })
     yargs.positional('args', {
@@ -39,9 +39,9 @@ const run = {
       params.unshift(`--spawn=${argv.spawn}`)
       params.unshift(`${cwd}/${pkg.main}`)
       params.push(`--cwd=${cwd}`)
-      const spinner = ora(__(`Spawning %s...`, pkg.name)).start()
+      const spinner = ora(__('Spawning %s...', pkg.name)).start()
       const child = spawn('node', params)
-      spinner.succeed(__(`'%s' spawned, pid: %s`, pkg.name, child.pid))
+      spinner.succeed(__('\'%s\' spawned, pid: %s', pkg.name, child.pid))
       child.stdout.on('data', d => {
         process.stdout.write(d.toString())
       })
@@ -50,7 +50,7 @@ const run = {
       })
       for (const s of ['SIGINT', 'SIGTERM', 'SIGHUP']) {
         process.on(s, async () => {
-          let text = __(`%s terminated`, pkg.name)
+          const text = __('%s terminated', pkg.name)
           try {
             await terminate(child.pid, s)
           } catch (err) {

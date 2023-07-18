@@ -9,14 +9,14 @@ import tplCheck from '../lib/tpl-check.js'
 import { __ } from '../../../lib/translate.js'
 import ora from 'ora'
 
-async function withTpl({ argv, cwd, type }) {
-  const tplDir = await tplCheck({ type, argv, type })
+async function withTpl ({ argv, cwd, type }) {
+  const tplDir = await tplCheck({ type, argv })
   let pkg
   try {
-    pkg = fs.readJSONSync(`${tplDir}/package.json`)
+    pkg = await fs.readJSON(`${tplDir}/package.json`)
   } catch (err) {
     try {
-      pkg = await readJson(`${tplDir}/../../root/package.json`)
+      pkg = await fs.readJSON(`${tplDir}/../../root/package.json`)
     } catch (err) {
     }
   }
@@ -27,7 +27,7 @@ async function withTpl({ argv, cwd, type }) {
   await copyRootFiles({ pkg, cwd, tplDir, files: ['.env', '.gitignore', 'README.md'] })
   await copySkel({ cwd, tplDir })
   await installPackages()
-  ora(__(`Done!`)).succeed()
+  ora(__('Done!')).succeed()
 }
 
 export default withTpl

@@ -21,7 +21,7 @@ const list = {
       f = dropRight(f.split('/'), 2).join('/')
       return isValidApp(f)
     }), f => dropRight(f.split('/'), 2).join('/'))
-    listPackages(files, { emptyFiles: __(`No app installed yet`) })
+    listPackages(files, { emptyFiles: __('No app installed yet') })
   }
 }
 

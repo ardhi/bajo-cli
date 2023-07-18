@@ -10,7 +10,7 @@ const info = {
   describe: __('Show detailed infos'),
   builder (yargs) {
     yargs.positional('name', {
-      describe: __(`Plugin name. Use '.' for local plugin`),
+      describe: __('Plugin name. Use \'.\' for local plugin'),
       type: 'string'
     })
     yargs.epilog(epilog)

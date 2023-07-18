@@ -8,14 +8,14 @@ import { __ } from '../../lib/translate.js'
 const createApp = {
   command: __('%s <%s> [%s]', 'create-app', 'name', 'tpl'),
   aliases: ['ca'],
-  describe: __(`Create app project`),
+  describe: __('Create app project'),
   builder (yargs) {
     yargs.positional('name', {
-      describe: __(`Any valid npm name. Use '.' to use current dir`),
+      describe: __('Any valid npm name. Use \'.\' to use current dir'),
       type: 'string'
     })
     yargs.positional('tpl', {
-      describe: __(`Template to use. Omit for interactive session`),
+      describe: __('Template to use. Omit for interactive session'),
       type: 'string'
     })
     yargs.option('check-remote', {

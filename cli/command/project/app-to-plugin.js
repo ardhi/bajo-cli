@@ -9,7 +9,7 @@ import { __ } from '../../lib/translate.js'
 const appToPlugin = {
   command: __('%s <%s>', 'app-to-plugin', 'new-name'),
   aliases: ['ap'],
-  describe: __(`Convert app to plugin`),
+  describe: __('Convert app to plugin'),
   builder (yargs) {
     yargs.positional('new-name', {
       describe: __('New plugin name'),
@@ -31,8 +31,7 @@ const appToPlugin = {
       process.exit(1)
     }
     spinner.succeed()
-    const toDir = pathResolve(await dirNameCheck({ name: argv.newName }, `${fromDir}/..`))
-
+    await dirNameCheck({ name: argv.newName }, `${fromDir}/..`)
   }
 }
 

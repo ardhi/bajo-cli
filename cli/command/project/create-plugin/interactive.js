@@ -11,7 +11,7 @@ import { __ } from '../../../lib/translate.js'
 import fs from 'fs-extra'
 import ora from 'ora'
 
-async function interactive({ argv, cwd, type, session }) {
+async function interactive ({ argv, cwd, type, session }) {
   session.pkg = await buildPackageJson({ argv, session })
   session.ext = await customInstall({ argv, type, session })
   const answer = await endOfISession()
@@ -31,17 +31,13 @@ async function interactive({ argv, cwd, type, session }) {
     await copyRootFiles({ pkg, cwd, tplDir, files: ['.env', '.gitignore', 'README.md'] })
     await copySkel({ cwd, tplDir })
     if (session.ext.dependencies.length > 0) {
-      try {
-        const file = `${cwd}/bajo/config.json`
-        const cfg = fs.readJSONSync(file)
-        cfg.dependencies = session.ext.dependencies
-        fs.writeJSONSync(file, cfg, { spaces: 2 })
-      } catch (err) {
-        throw err
-      }
+      const file = `${cwd}/bajo/config.json`
+      const cfg = fs.readJSONSync(file)
+      cfg.dependencies = session.ext.dependencies
+      fs.writeJSONSync(file, cfg, { spaces: 2 })
     }
     await installPackages()
-    ora(__(`Done!`)).succeed()
+    ora(__('Done!')).succeed()
   }
 }
 

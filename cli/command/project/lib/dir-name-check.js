@@ -18,26 +18,26 @@ async function dirNameCheck (argv, cwd) {
   await delay(1000)
   const nameCheck = validate(argv.name)
   if (!nameCheck.validForNewPackages) {
-    spinner.fail(__(`Package name '%s' is not a valid npm package name. Aborted!`, argv.name))
+    spinner.fail(__('Package name \'%s\' is not a valid npm package name. Aborted!', argv.name))
     process.exit(1)
   }
   if (argv.checkRemote) {
     try {
       const resp = await getNpmPkgInfo(argv.name)
       if (resp.status !== 404) {
-        spinner.fail(__(`Package name '%s' is already taken on npm registry. Aborted!`, argv.name))
+        spinner.fail(__('Package name \'%s\' is already taken on npm registry. Aborted!', argv.name))
         process.exit(1)
       }
     } catch (err) {
-      spinner.fail(__(`Can't check '%s' against npm registry. Aborted!`, argv.name))
+      spinner.fail(__('Can\'t check \'%s\' against npm registry. Aborted!', argv.name))
       process.exit(1)
     }
   }
   if (fs.existsSync(cwd) && !(await isEmptyDir(cwd))) {
-    spinner.fail(__(`Dir '%s' is NOT empty. Aborted!`, path.resolve(cwd)))
+    spinner.fail(__('Dir \'%s\' is NOT empty. Aborted!', path.resolve(cwd)))
     process.exit(1)
   }
-  spinner.succeed(__(`Package name: %s`, argv.name))
+  spinner.succeed(__('Package name: %s', argv.name))
   return cwd
 }
 

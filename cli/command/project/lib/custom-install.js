@@ -30,7 +30,7 @@ async function customInstall ({ argv, type, session }) {
   }
   const def = findIndex(choices, { value: get(session, 'ext.tpl') })
   ext.tpl = await rawlist({
-    message: __(`Choose which %s template you want to use:`, type),
+    message: __('Choose which %s template you want to use:', type),
     default: def, // TODO: it doesn't work!
     choices
   })
@@ -40,7 +40,7 @@ async function customInstall ({ argv, type, session }) {
       { value: 'global', name: __('Global, rely on bajo executable to start') },
       { value: 'hybrid', name: __('Hybrid, the best of both worlds') }
     ]
-    const def = findIndex(choices, { value: get(session, 'ext.bootFile')})
+    const def = findIndex(choices, { value: get(session, 'ext.bootFile') })
     ext.bootFile = await rawlist({
       message: __('What kind of app do you want to create?'),
       default: def, // TODO: it doesn't work!
@@ -55,7 +55,6 @@ async function customInstall ({ argv, type, session }) {
       default: get(session, 'ext.plugins', []),
       choices
     })
-
   } else if (type === 'plugin') {
     const choices = map(cloneDeep(plugins), p => {
       p.checked = get(session, 'ext.dependencies', []).includes(p.value)
