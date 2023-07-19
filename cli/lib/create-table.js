@@ -1,6 +1,6 @@
 import Table from 'cli-table3'
 import isSet from 'bajo/boot/helper/is-set.js'
-import { map, snakeCase, capitalize, isEmpty, isArray, forOwn, isPlainObject, keys, set } from 'lodash-es'
+import { map, snakeCase, capitalize, isEmpty, isArray, forOwn, isPlainObject, keys } from 'lodash-es'
 
 const defTitleFn = (text = '') => {
   return map(snakeCase(text).split('_'), t => capitalize(t)).join(' ')
@@ -35,14 +35,16 @@ export function horizontal (coll, opts) {
   const head = keys(coll[0])
   const tbl = new Table({
     head: noHeader ? [] : map(head, h => titleFn ? titleFn(h) : h),
-    style,
+    style
   })
   for (const c of coll) {
-    let item = []
+    const items = []
     for (const h of head) {
-      item.push(c[h])
+      let item = c[h]
+      if (isPlainObject(item)) item = vertical(item, { print })
+      items.push(item)
     }
-    tbl.push(item)
+    tbl.push(items)
   }
   const text = tbl.toString()
   return print ? console.log(text) : text
