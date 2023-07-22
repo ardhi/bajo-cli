@@ -1,6 +1,6 @@
 import { input } from '@inquirer/prompts'
 import semver from 'semver'
-import { get, without, trim } from 'lodash-es'
+import { get, without, trim, map } from 'lodash-es'
 import { __ } from '../../../lib/translate.js'
 import boxen from 'boxen'
 
