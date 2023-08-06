@@ -44,6 +44,7 @@ export function horizontal (coll, opts) {
       let item = c[h]
       if (isPlainObject(item)) item = vertical(item, { print })
       if (isDate(item)) item = item.toISOString()
+      if (isArray(item)) item = isPlainObject(item[0]) ? horizontal(item, { print }) : item.join(', ')
       items.push(item)
     }
     tbl.push(items)
