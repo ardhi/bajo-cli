@@ -1,6 +1,6 @@
 import isValidApp from 'bajo/boot/helper/is-valid-app.js'
 import epilog from '../../lib/epilog.js'
-import pathResolve from 'bajo/boot/helper/path-resolve.js'
+import resolvePath from 'bajo/boot/helper/resolve-path.js'
 import ora from 'ora'
 import delay from 'delay'
 import dirNameCheck from './lib/dir-name-check.js'
@@ -22,7 +22,7 @@ const appToPlugin = {
     yargs.epilog(epilog)
   },
   async handler (argv) {
-    const fromDir = pathResolve(process.cwd())
+    const fromDir = resolvePath(process.cwd())
     const spinner = ora(__('Check if current directory is a valid bajo app')).start()
     await delay(1000)
     if (!isValidApp(fromDir)) {

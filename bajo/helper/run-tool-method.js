@@ -3,12 +3,12 @@ import os from 'os'
 import net from 'net'
 
 async function runToolMethod ({ path, args = [], dir, options = {} } = {}) {
-  const { print, importPkg, pathResolve, getConfig, generateId, log } = this.bajo.helper
+  const { print, importPkg, resolvePath, getConfig, generateId, log } = this.bajo.helper
   const { camelCase, map, find } = await importPkg('lodash-es')
   const [fg, select] = await importPkg('fast-glob', 'bajo-cli:@inquirer/select')
   const config = getConfig()
 
-  const choices = map(await fg(pathResolve(`${dir}/*.js`)), f => {
+  const choices = map(await fg(resolvePath(`${dir}/*.js`)), f => {
     return { file: f, value: camelCase(Path.basename(f, '.js')) }
   })
   if (!path) {
@@ -20,7 +20,7 @@ async function runToolMethod ({ path, args = [], dir, options = {} } = {}) {
   }
   const tool = find(choices, { value: path })
   if (!tool) print.fatal('Unknown method \'%s\'', path)
-  const mod = await import(pathResolve(tool.file, true))
+  const mod = await import(resolvePath(tool.file, true))
   await mod.default.call(this, path, args, options)
   if (options.demonize === '*' || (options.demonize || []).includes(path)) {
     log.debug('Side tool \'%s\' demonized', path)

@@ -1,5 +1,5 @@
 import validate from 'validate-npm-package-name'
-import pathResolve from 'bajo/boot/helper/path-resolve.js'
+import resolvePath from 'bajo/boot/helper/resolve-path.js'
 import isEmptyDir from 'bajo/boot/helper/is-empty-dir.js'
 import path from 'path'
 import ora from 'ora'
@@ -9,7 +9,7 @@ import { __ } from '../../../lib/translate.js'
 import getNpmPkgInfo from '../../../../bajo/helper/get-npm-pkg-info.js'
 
 async function dirNameCheck (argv, cwd) {
-  if (!cwd) cwd = pathResolve(process.cwd())
+  if (!cwd) cwd = resolvePath(process.cwd())
   if (argv.name === '.\\') argv.name = './'
   if (['.', './'].includes(argv.name)) {
     argv.name = path.basename(cwd)
