@@ -26,7 +26,7 @@ async function interactive ({ argv, cwd, type, session }) {
     pkg.packageManager = 'npm@9.1.3'
     if (session.ext.bootFile !== 'local') pkg.dependencies['global-modules-path'] = '^3.0.0'
     else {
-      pkg.dependencies['bajo'] = 'latest' // TODO
+      pkg.dependencies.bajo = 'latest' // TODO
       for (const p of session.ext.plugins) {
         pkg.dependencies[p] = 'latest'
       }
