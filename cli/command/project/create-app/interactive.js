@@ -11,7 +11,7 @@ import { __ } from '../../../lib/translate.js'
 import fs from 'fs-extra'
 import ora from 'ora'
 
-async function interactive({ argv, cwd, type, session }) {
+async function interactive ({ argv, cwd, type, session }) {
   session.pkg = await buildPackageJson({ argv, session })
   session.ext = await customInstall({ argv, type, session })
   const answer = await endOfISession()
@@ -21,8 +21,8 @@ async function interactive({ argv, cwd, type, session }) {
     process.exit()
   } else {
     const pkg = session.pkg
-    pkg.dependencies = pkg.dependencies || {}
-    pkg.devDependencies = pkg.devDependencies || {}
+    pkg.dependencies = pkg.dependencies ?? {}
+    pkg.devDependencies = pkg.devDependencies ?? {}
     pkg.packageManager = 'npm@9.1.3'
     if (session.ext.bootFile !== 'local') pkg.dependencies['global-modules-path'] = '^3.0.0'
     else {
@@ -38,17 +38,13 @@ async function interactive({ argv, cwd, type, session }) {
     await copyRootFiles({ pkg, cwd, tplDir, files: ['.env', '.gitignore', 'README.md', `${session.ext.bootFile}:index.js`] })
     await copySkel({ cwd, tplDir })
     if (session.ext.plugins.length > 0) {
-      try {
-        const file = `${cwd}/data/config/bajo.json`
-        const cfg = fs.readJSONSync(file)
-        cfg.plugins = session.ext.plugins
-        fs.writeJSONSync(file, cfg, { spaces: 2 })
-      } catch (err) {
-        throw err
-      }
+      const file = `${cwd}/data/config/bajo.json`
+      const cfg = fs.readJSONSync(file)
+      cfg.plugins = session.ext.plugins
+      fs.writeJSONSync(file, cfg, { spaces: 2 })
     }
     await installPackages()
-    ora(__(`Done!`)).succeed()
+    ora(__('Done!')).succeed()
   }
 }
 

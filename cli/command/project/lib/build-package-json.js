@@ -37,7 +37,7 @@ async function buildPackageJson ({ argv, session }) {
     type: 'git',
     url: repo
   }
-  pkg.keywords = without(map((keywords || '').replaceAll(',', ' ').split(' '), k => trim(k)), '', undefined, null)
+  pkg.keywords = without(map((keywords ?? '').replaceAll(',', ' ').split(' '), k => trim(k)), '', undefined, null)
   console.log(boxen(JSON.stringify(pkg, null, 2), { title: 'package.json', padding: 1, borderStyle: 'round' }))
   return pkg
 }

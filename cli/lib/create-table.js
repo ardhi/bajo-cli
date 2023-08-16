@@ -8,7 +8,7 @@ const defTitleFn = (text = '') => {
 
 export function vertical (obj, opts) {
   const titleFn = isSet(opts.titleFn) ? opts.titleFn : defTitleFn
-  const { print = true, style = { head: [] } } = opts || {}
+  const { print = true, style = { head: [] } } = opts ?? {}
   if (isEmpty(obj)) return
   const tbl = new Table({
     style
@@ -31,7 +31,7 @@ export function vertical (obj, opts) {
 
 export function horizontal (coll, opts) {
   const titleFn = isSet(opts.titleFn) ? opts.titleFn : defTitleFn
-  const { print = true, noHeader, style = { head: [] } } = opts || {}
+  const { print = true, noHeader, style = { head: [] } } = opts ?? {}
   if (isEmpty(coll)) return
   const head = keys(coll[0])
   const tbl = new Table({

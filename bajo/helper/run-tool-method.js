@@ -22,7 +22,7 @@ async function runToolMethod ({ path, args = [], dir, options = {} } = {}) {
   if (!tool) print.fatal('Unknown method \'%s\'', path)
   const mod = await import(resolvePath(tool.file, true))
   await mod.default.call(this, path, args, options)
-  if (options.demonize === '*' || (options.demonize || []).includes(path)) {
+  if (options.demonize === '*' || (options.demonize ?? []).includes(path)) {
     log.debug('Side tool \'%s\' demonized', path)
     this.bajoCli.dsocket = os.platform() === 'win32' ? Path.join('\\\\?\\pipe', Path.resolve(config.dir.tmp), 'bajoDb', generateId()) : path.join(config.dir.tmp, 'bajoDb', generateId())
     this.bajoCli.daemon = net.createServer()

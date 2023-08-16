@@ -10,7 +10,7 @@ export function getLang () {
 
 const baseDir = currentLoc(import.meta).dir
 const instance = y18n({
-  locale: getLang() || 'en',
+  locale: getLang() ?? 'en',
   directory: `${baseDir}/../locale`,
   updateFiles: false
 })

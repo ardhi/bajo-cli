@@ -21,8 +21,8 @@ async function interactive ({ argv, cwd, type, session }) {
     process.exit()
   } else {
     const pkg = session.pkg
-    pkg.dependencies = pkg.dependencies || {}
-    pkg.devDependencies = pkg.devDependencies || {}
+    pkg.dependencies = pkg.dependencies ?? {}
+    pkg.devDependencies = pkg.devDependencies ?? {}
     pkg.packageManager = 'npm@9.1.3'
     argv.tpl = session.ext.tpl
     const tplDir = await tplCheck({ type, argv })
