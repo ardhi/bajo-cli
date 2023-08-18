@@ -6,7 +6,7 @@ const defTitleFn = (text = '') => {
   return map(snakeCase(text).split('_'), t => capitalize(t)).join(' ')
 }
 
-export function vertical (obj, opts) {
+export function vertical (obj, opts = {}) {
   const titleFn = isSet(opts.titleFn) ? opts.titleFn : defTitleFn
   const { print = true, style = { head: [] } } = opts ?? {}
   if (isEmpty(obj)) return
@@ -29,7 +29,7 @@ export function vertical (obj, opts) {
   return print ? console.log(text) : text
 }
 
-export function horizontal (coll, opts) {
+export function horizontal (coll, opts = {}) {
   const titleFn = isSet(opts.titleFn) ? opts.titleFn : defTitleFn
   const { print = true, noHeader, style = { head: [] } } = opts ?? {}
   if (isEmpty(coll)) return
