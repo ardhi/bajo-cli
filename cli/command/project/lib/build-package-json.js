@@ -17,7 +17,7 @@ async function buildPackageJson ({ argv, session }) {
     message: __('Description'),
     default: get(session, 'pkg.description')
   })
-  const repo = await input({
+  const coll = await input({
     message: __('Git Repository'),
     default: get(session, 'pkg.repository.url')
   })
@@ -35,7 +35,7 @@ async function buildPackageJson ({ argv, session }) {
   })
   pkg.repository = {
     type: 'git',
-    url: repo
+    url: coll
   }
   pkg.keywords = without(map((keywords ?? '').replaceAll(',', ' ').split(' '), k => trim(k)), '', undefined, null)
   console.log(boxen(JSON.stringify(pkg, null, 2), { title: 'package.json', padding: 1, borderStyle: 'round' }))
