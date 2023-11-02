@@ -1,6 +1,6 @@
 {
   "name": "bajo-cli",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "CLI Interface & plugin for Bajo Framework",
   "main": "index.js",
   "scripts": {
