@@ -1,6 +1,6 @@
 {
   "name": "bajo-cli",
-  "version": "0.1.5",
+  "version": "0.2.0",
   "description": "CLI Interface & plugin for Bajo Framework",
   "main": "index.js",
   "scripts": {
@@ -34,7 +34,7 @@
     "@inquirer/confirm": "^2.0.4",
     "@inquirer/prompts": "^2.3.0",
     "@inquirer/rawlist": "^1.2.3",
-    "bajo": "file:../bajo",
+    "bajo": "^0.2.0",
     "boxen": "^7.1.0",
     "cli-table3": "^0.6.3",
     "delay": "^6.0.0",
