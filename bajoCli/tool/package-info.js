@@ -1,8 +1,8 @@
 import getNpmPkgInfo from '../../bajo/helper/get-npm-pkg-info.js'
 import { input } from '@inquirer/prompts'
 
-async function packageInfo ({ path, args, returnEarly }) {
-  const { getConfig, importPkg, saveAsDownload, print } = this.bajo.helper
+async function packageInfo ({ path, args }) {
+  const { getConfig, importPkg, saveAsDownload, print, spinner } = this.bajo.helper
   const { prettyPrint } = this.bajoCli.helper
   const [_, stripAnsi] = await importPkg('lodash::bajo', 'strip-ansi::bajo-cli')
   let [pkg] = args
@@ -13,15 +13,15 @@ async function packageInfo ({ path, args, returnEarly }) {
     })
   }
   const config = getConfig()
-  const spinner = print.bora('Retrieving...').start()
+  const spin = spinner().start('Retrieving...')
   const resp = await getNpmPkgInfo(pkg)
   if (resp.status === 404) {
-    spinner.fail('Unknown package \'%s\'. Aborted!', pkg)
-    if (returnEarly) return
+    spin.fail('Unknown package \'%s\'. Aborted!', pkg)
+    if (!config.tool) return
   }
   if (resp.status !== 200) {
-    spinner.fail('Can\'t check \'%s\' against npm registry. Aborted!', pkg)
-    if (returnEarly) return
+    spin.fail('Can\'t check \'%s\' against npm registry. Aborted!', pkg)
+    if (!config.tool) return
   }
   const omitted = config.full ? [] : ['readme', 'versions']
   let result = _.omit(await resp.json(), omitted)
@@ -29,9 +29,9 @@ async function packageInfo ({ path, args, returnEarly }) {
   if (config.save) {
     const file = `/${path}/${pkg}.${config.pretty ? 'txt' : 'json'}`
     const fullPath = await saveAsDownload(file, stripAnsi(result), 'bajoCli')
-    spinner.succeed('Saved as \'%s\'', fullPath, { skipSilent: true })
+    spin.succeed('Saved as \'%s\'', fullPath, { skipSilent: true })
   } else {
-    spinner.succeed('Done!')
+    spin.succeed('Done!')
     console.log(result)
   }
 }

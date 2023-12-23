@@ -8,7 +8,7 @@ function buildSubCommand ({ command, aliases, describe, commands, builder, handl
       const cmds = map(commands, c => {
         return `'${c.command.split(' ')[0]}'`
       })
-      if (!cmds.includes(argv.action)) print('Invalid action \'%s\'. Please only use one of these: %s', argv.action, cmds.join(', '))
+      if (!cmds.includes(argv.action)) print.error('Invalid action \'%s\'. Please only use one of these: %s', argv.action, cmds.join(', '))
     }
   }
   const extBuilder = function (yargs) {
