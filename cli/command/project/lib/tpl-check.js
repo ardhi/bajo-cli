@@ -14,7 +14,8 @@ async function tplCheck ({ type, argv }) {
   }
   if (!tplDir) {
     ora(__('Unknown app template \'%s\'. Type: \'bajo project tpl %s\' for valid templates'), argv.tpl, type).fail()
-    process.exit()
+    process.kill(process.pid, 'SIGINT')
+    return
   }
   return tplDir
 }

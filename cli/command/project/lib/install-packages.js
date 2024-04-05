@@ -21,7 +21,7 @@ async function installPackages () {
       ora(__('Project directory removed')).succeed()
     }
     ora(__('Project creation canceled')).fail()
-    process.exit(1)
+    process.kill(process.pid, 'SIGINT')
   }
 }
 

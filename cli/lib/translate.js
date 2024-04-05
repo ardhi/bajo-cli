@@ -21,7 +21,7 @@ export function __ (...args) {
 
 export function fatal (...args) {
   console.error(instance.__(...args))
-  process.exit(1)
+  process.kill(process.pid, 'SIGINT')
 }
 
 export function print (...args) {

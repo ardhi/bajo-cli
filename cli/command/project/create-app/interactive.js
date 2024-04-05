@@ -18,7 +18,7 @@ async function interactive ({ argv, cwd, type, session }) {
   if (answer === 'e') await interactive({ argv, cwd, type, session })
   else if (answer === 'n') {
     ora(__('Aborted!')).fail()
-    process.exit()
+    process.kill(process.pid, 'SIGINT')
   } else {
     const pkg = session.pkg
     pkg.dependencies = pkg.dependencies ?? {}

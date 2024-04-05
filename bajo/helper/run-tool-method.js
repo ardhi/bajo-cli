@@ -28,7 +28,9 @@ async function runToolMethod ({ path, args = [], dir, options = {} } = {}) {
     this.bajoCli.dsocket = os.platform() === 'win32' ? Path.join('\\\\?\\pipe', Path.resolve(config.dir.tmp), 'bajoDb', generateId()) : path.join(config.dir.tmp, 'bajoDb', generateId())
     this.bajoCli.daemon = net.createServer()
     this.bajoCli.daemon.listen(this.bajoCli.dsocket)
-  } else process.exit(0)
+  } else {
+    process.kill(process.pid, 'SIGINT')
+  }
 }
 
 export default runToolMethod

@@ -28,7 +28,8 @@ const appToPlugin = {
     if (!isValidApp(fromDir)) {
       spinner.text = __('Current directory is NOT a valid bajo app')
       spinner.fail()
-      process.exit(1)
+      process.kill(process.pid, 'SIGINT')
+      return
     }
     spinner.succeed()
     await dirNameCheck({ name: argv.newName }, `${fromDir}/..`)
