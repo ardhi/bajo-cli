@@ -8,8 +8,9 @@ async function runToolMethod ({ path, args = [], dir, options = {} } = {}) {
   const [fg, select] = await importPkg('fast-glob', 'bajo-cli:@inquirer/select')
   const config = getConfig()
 
-  const choices = map(await fg(resolvePath(`${dir}/*.js`)), f => {
-    return { file: f, value: camelCase(Path.basename(f, '.js')) }
+  const choices = map(await fg(resolvePath(`${dir}/**/*.js`)), f => {
+    const base = f.replace(dir + '/', '').slice(0, -3)
+    return { file: f, value: camelCase(base) }
   })
   if (!path) {
     path = await select({
