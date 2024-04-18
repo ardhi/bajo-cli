@@ -3,12 +3,12 @@ import os from 'os'
 import net from 'net'
 
 async function runToolMethod ({ path, args = [], dir, options = {} } = {}) {
-  const { print, importPkg, resolvePath, getConfig, generateId, log } = this.bajo.helper
-  const { camelCase, map, find } = await importPkg('lodash-es')
-  const [fg, select] = await importPkg('fast-glob', 'bajo-cli:@inquirer/select')
+  const { fastGlob, print, importPkg, resolvePath, getConfig, generateId, log } = this.bajo.helper
+  const { camelCase, map, find } = this.bajo.helper._
+  const select = await importPkg('bajoCli:@inquirer/select')
   const config = getConfig()
 
-  const choices = map(await fg(resolvePath(`${dir}/**/*.js`)), f => {
+  const choices = map(await fastGlob(resolvePath(`${dir}/**/*.js`)), f => {
     const base = f.replace(dir + '/', '').slice(0, -3)
     return { file: f, value: camelCase(base) }
   })

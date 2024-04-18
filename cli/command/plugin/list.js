@@ -21,7 +21,7 @@ const list = {
       f = dropRight(f.split('/'), 1).join('/')
       return isValidPlugin(f)
     }), f => dropRight(f.split('/'), 1).join('/'))
-    listPackages(files, { emptyFiles: __(`No plugin installed yet`) })
+    listPackages(files, { emptyFiles: __('No plugin installed yet') })
   }
 }
 
