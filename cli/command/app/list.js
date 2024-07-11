@@ -1,5 +1,5 @@
-import isValidApp from 'bajo/boot/helper/is-valid-app.js'
-import getGlobalModuleDir from 'bajo/boot/helper/get-global-module-dir.js'
+import isValidApp from 'bajo/boot/method/is-valid-app.js'
+import getGlobalModuleDir from 'bajo/boot/method/get-global-module-dir.js'
 import fastGlob from 'fast-glob'
 import epilog from '../../lib/epilog.js'
 import listPackages from '../../lib/list-packages.js'

@@ -1,5 +1,5 @@
 import fastGlob from 'fast-glob'
-import currentLoc from 'bajo/boot/helper/current-loc.js'
+import currentLoc from 'bajo/boot/method/current-loc.js'
 
 async function listTpl (type) {
   let dir = currentLoc(import.meta).dir

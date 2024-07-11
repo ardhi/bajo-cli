@@ -1,5 +1,5 @@
 import { horizontal } from './create-table.js'
-import readJson from 'bajo/boot/helper/read-json.js'
+import readJson from 'bajo/boot/method/read-json.js'
 import { __ } from './translate.js'
 
 function listPackages (files, { emptyFiles = __('No package found') } = {}) {

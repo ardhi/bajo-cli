@@ -3,8 +3,8 @@ import os from 'os'
 import net from 'net'
 
 async function runToolMethod ({ path, args = [], dir, options = {} } = {}) {
-  const { fastGlob, print, importPkg, resolvePath, getConfig, generateId, log } = this.bajo.helper
-  const { camelCase, map, find } = this.bajo.helper._
+  const { fastGlob, print, importPkg, resolvePath, getConfig, generateId } = this.bajo
+  const { camelCase, map, find } = this.bajo.lib._
   const select = await importPkg('bajoCli:@inquirer/select')
   const config = getConfig()
 
@@ -25,7 +25,7 @@ async function runToolMethod ({ path, args = [], dir, options = {} } = {}) {
   await mod.default.call(this, { path, args, options })
   if (!config.tool) return
   if (options.demonize === '*' || (options.demonize ?? []).includes(path)) {
-    log.debug('Side tool \'%s\' demonized', path)
+    this.log.debug('Tool \'%s\' demonized', path)
     this.bajoCli.dsocket = os.platform() === 'win32' ? Path.join('\\\\?\\pipe', Path.resolve(config.dir.tmp), 'bajoDb', generateId()) : path.join(config.dir.tmp, 'bajoDb', generateId())
     this.bajoCli.daemon = net.createServer()
     this.bajoCli.daemon.listen(this.bajoCli.dsocket)

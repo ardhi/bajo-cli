@@ -1,5 +1,4 @@
 import Table from 'cli-table3'
-import isSet from 'bajo/boot/helper/is-set.js'
 import { map, snakeCase, capitalize, isEmpty, isArray, forOwn, isPlainObject, keys, isDate } from 'lodash-es'
 
 const defTitleFn = (text = '') => {
@@ -7,7 +6,7 @@ const defTitleFn = (text = '') => {
 }
 
 export function vertical (obj, opts = {}) {
-  const titleFn = isSet(opts.titleFn) ? opts.titleFn : defTitleFn
+  const titleFn = isEmpty(opts.titleFn) ? opts.titleFn : defTitleFn
   const { print = true, style = { head: [] } } = opts ?? {}
   if (isEmpty(obj)) return
   const tbl = new Table({
@@ -30,7 +29,7 @@ export function vertical (obj, opts = {}) {
 }
 
 export function horizontal (coll, opts = {}) {
-  const titleFn = isSet(opts.titleFn) ? opts.titleFn : defTitleFn
+  const titleFn = isEmpty(opts.titleFn) ? opts.titleFn : defTitleFn
   const { print = true, noHeader, style = { head: [] } } = opts ?? {}
   if (isEmpty(coll)) return
   const head = keys(coll[0])

@@ -1,7 +1,7 @@
-import getGlobalModuleDir from 'bajo/boot/helper/get-global-module-dir.js'
-import resolvePath from 'bajo/boot/helper/resolve-path.js'
-import isValidApp from 'bajo/boot/helper/is-valid-app.js'
-import isValidPlugin from 'bajo/boot/helper/is-valid-plugin.js'
+import getGlobalModuleDir from 'bajo/boot/method/get-global-module-dir.js'
+import resolvePath from 'bajo/boot/method/resolve-path.js'
+import isValidApp from 'bajo/boot/method/is-valid-app.js'
+import isValidPlugin from 'bajo/boot/method/is-valid-plugin.js'
 import { fatal } from './translate.js'
 import fs from 'fs-extra'
 
