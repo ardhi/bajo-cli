@@ -2,7 +2,7 @@ import Path from 'path'
 import os from 'os'
 import net from 'net'
 
-async function runToolMethod ({ path, args = [], dir, options = {}, ns } = {}) {
+async function runToolMethod ({ path, args = [], dir, options = {}, ns, alias } = {}) {
   const { importPkg, resolvePath, generateId } = this.app.bajo
   const { fastGlob } = this.app.bajo.lib
   const { camelCase, map, find } = this.app.bajo.lib._
