@@ -1,5 +1,5 @@
 import y18n from 'y18n'
-import currentLoc from 'bajo/boot/method/current-loc.js'
+import currentLoc from 'bajo/boot/lib/current-loc.js'
 
 export function getLang () {
   let lang
