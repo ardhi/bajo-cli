@@ -8,7 +8,7 @@ const { builder, handler } = runFn
 const run = buildCliSubcommand({
   command: __('%s <%s> [%s...]', 'run', 'name', 'args'),
   aliases: ['r'],
-  describe: __(`Shortcut for 'bajo app run'`),
+  describe: __('Shortcut for \'bajo app run\''),
   builder,
   handler,
   epilog: false

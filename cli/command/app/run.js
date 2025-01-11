@@ -1,11 +1,15 @@
 import { spawn } from 'child_process'
-import terminate from 'terminate/promise.js'
 import epilog from '../../lib/epilog.js'
 import getCwdPkg from '../../lib/get-cwd-pkg.js'
 import boot from 'bajo/boot/index.js'
 import { has } from 'lodash-es'
 import ora from 'ora'
 import { __ } from '../../lib/translate.js'
+
+import util from 'util'
+import _terminate from 'terminate'
+
+const terminate = util.promisify(_terminate)
 
 const run = {
   command: __('%s <%s> [%s...]', 'run', 'name', 'args'),
@@ -32,7 +36,7 @@ const run = {
     yargs.epilog(epilog)
   },
   async handler (argv) {
-    const { cwd, pkg } = getCwdPkg({ argv, type: 'app' })
+    const { cwd, pkg } = getCwdPkg({ argv, type: 'main' })
     if (has(argv, 'tool')) argv.spawn = false
     if (argv.spawn) {
       const params = process.argv.slice(process.argv[2] === 'run' ? 4 : 5)
@@ -50,11 +54,11 @@ const run = {
       })
       for (const s of ['SIGINT', 'SIGTERM', 'SIGHUP']) {
         process.on(s, async () => {
-          const text = __('%s terminated', pkg.name)
+          let text = __('%s terminated', pkg.name)
           try {
             await terminate(child.pid, s)
           } catch (err) {
-            // text += ` with error: ${err.message}`
+            text += ` with error: ${err.message}`
           }
           ora(text).succeed()
         })

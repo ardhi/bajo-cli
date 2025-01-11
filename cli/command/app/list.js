@@ -1,5 +1,5 @@
-import isValidApp from 'bajo/boot/method/is-valid-app.js'
-import getGlobalModuleDir from 'bajo/boot/method/get-global-module-dir.js'
+import isValidApp from 'bajo/boot/class/bajo-core/method/is-valid-app.js'
+import getGlobalModuleDir from 'bajo/boot/class/bajo-core/method/get-global-module-dir.js'
 import fastGlob from 'fast-glob'
 import epilog from '../../lib/epilog.js'
 import listPackages from '../../lib/list-packages.js'
@@ -15,7 +15,7 @@ const list = {
   },
   async handler (argv) {
     const nodeModules = getGlobalModuleDir(null, false)
-    const pattern = `${nodeModules}/**/*/app/bajo`
+    const pattern = `${nodeModules}/**/*/main/bajo`
     let files = await fastGlob(pattern, { onlyDirectories: true })
     files = map(filter(files, f => {
       f = dropRight(f.split('/'), 2).join('/')

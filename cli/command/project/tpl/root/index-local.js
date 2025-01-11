@@ -1,5 +1,2 @@
-import bajo from 'bajo/boot/index.js'
-
+import bajo from 'bajo'
 await bajo.default()
-// or:
-// const scope = await bajo.default()

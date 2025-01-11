@@ -16,7 +16,7 @@ const info = {
     yargs.epilog(epilog)
   },
   async handler (argv) {
-    const { pkg } = getCwdPkg({ argv, type: 'app' })
+    const { pkg } = getCwdPkg({ argv, type: 'main' })
     vertical(pick(pkg, ['name', 'version', 'description', 'author', 'license', 'homepage']))
   }
 }

@@ -5,7 +5,7 @@ import { __ } from '../../../lib/translate.js'
 import boxen from 'boxen'
 
 async function buildPackageJson ({ argv, session }) {
-  const pkg = { name: argv.name, type: 'module' }
+  const pkg = { name: argv.name, type: 'module', main: 'index.js' }
   pkg.version = await input({
     message: __('Version'),
     default: get(session, 'pkg.version', '0.0.1'),

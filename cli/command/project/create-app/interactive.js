@@ -35,13 +35,12 @@ async function interactive ({ argv, cwd, type, session }) {
     const tplDir = await tplCheck({ type, argv })
     await ensureDir(cwd)
     await writePackageJson({ argv, cwd, pkg })
-    await copyRootFiles({ pkg, cwd, tplDir, files: ['.env', '.gitignore', 'README.md', `${session.ext.bootFile}:index.js`] })
+    await copyRootFiles({ pkg, cwd, tplDir, files: ['.env', '.gitignore', 'README.md', `index-${session.ext.bootFile}.js:index.js`] })
     await copySkel({ cwd, tplDir })
     if (session.ext.plugins.length > 0) {
-      const file = `${cwd}/data/config/bajo.json`
-      const cfg = fs.readJSONSync(file)
-      cfg.plugins = session.ext.plugins
-      fs.writeJSONSync(file, cfg, { spaces: 2 })
+      const file = `${cwd}/data/config/.plugins`
+      const contents = session.ext.plugins.join('\n')
+      fs.writeFileSync(file, contents, 'utf8')
     }
     await installPackages()
     ora(__('Done!')).succeed()

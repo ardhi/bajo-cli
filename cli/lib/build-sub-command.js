@@ -1,6 +1,6 @@
 import { map } from 'lodash-es'
 import Epilog from './epilog.js'
-import { print } from './translate.js'
+import { fatal } from './translate.js'
 
 function buildSubCommand ({ command, aliases, describe, commands, builder, handler, example, epilog = true } = {}) {
   if (!handler) {
@@ -8,7 +8,7 @@ function buildSubCommand ({ command, aliases, describe, commands, builder, handl
       const cmds = map(commands, c => {
         return `'${c.command.split(' ')[0]}'`
       })
-      if (!cmds.includes(argv.action)) print.error('Invalid action \'%s\'. Please only use one of these: %s', argv.action, cmds.join(', '))
+      if (!cmds.includes(argv.action)) fatal('Invalid action \'%s\'. Please only use one of these: %s', argv.action, cmds.join(', '))
     }
   }
   const extBuilder = function (yargs) {
