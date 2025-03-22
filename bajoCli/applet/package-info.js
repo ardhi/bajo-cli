@@ -2,7 +2,7 @@ import getNpmPkgInfo from '../../bajo/method/get-npm-pkg-info.js'
 import { input } from '@inquirer/prompts'
 
 async function packageInfo (...args) {
-  const { isEmpty, omit } = this.app.bajo.lib._
+  const { isEmpty, omit } = this.lib._
   const { getOutputFormat, writeOutput } = this
   const format = getOutputFormat()
   let [pkg] = args

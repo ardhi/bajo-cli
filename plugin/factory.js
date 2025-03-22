@@ -5,8 +5,8 @@ const npmUrl = 'https://registry.npmjs.com'
 
 async function run (applet, path, ...args) {
   const { importPkg, resolvePath, importModule } = this.app.bajo
-  const { fastGlob } = this.app.bajo.lib
-  const { camelCase, map, find } = this.app.bajo.lib._
+  const { fastGlob } = this.lib
+  const { camelCase, map, find } = this.lib._
   const select = await importPkg('bajoCli:@inquirer/select')
   const dir = `${_path.dirname(applet.file)}/applet`
 
@@ -46,7 +46,7 @@ async function factory (pkgName) {
     }
 
     getOutputFormat = () => {
-      const { get } = this.app.bajo.lib._
+      const { get } = this.lib._
       const format = get(this, 'app.bajo.config.format')
       const exts = ['json']
       if (this.app.bajoConfig) exts.push('yml', 'yaml', 'toml')
@@ -59,7 +59,7 @@ async function factory (pkgName) {
     }
 
     prettyPrint = async (obj, print = false, titleFn) => {
-      const { isString, isNumber, isArray } = this.app.bajo.lib._
+      const { isString, isNumber, isArray } = this.lib._
       let result
       if (isString(obj) || isNumber(obj)) result = horizontal([{ obj }], { print, noHeader: true, titleFn })
       else if (isArray(obj)) result = horizontal(obj, { print, titleFn })
@@ -81,7 +81,7 @@ async function factory (pkgName) {
 
     writeOutput = async (content, path, format) => {
       const { saveAsDownload, importPkg } = this.app.bajo
-      const { cloneDeep } = this.app.bajo.lib._
+      const { cloneDeep } = this.lib._
       const { prettyPrint } = this.app.bajoCli
       const stripAnsi = await importPkg('bajoCli:strip-ansi')
       let result = cloneDeep(content)
