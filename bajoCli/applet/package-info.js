@@ -1,4 +1,4 @@
-import getNpmPkgInfo from '../../bajo/method/get-npm-pkg-info.js'
+import getNpmPkgInfo from '../../../cli/lib/get-npm-pkg-info.js'
 import { input } from '@inquirer/prompts'
 
 async function packageInfo (...args) {

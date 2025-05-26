@@ -1,7 +1,6 @@
 import { vertical, horizontal } from '../cli/lib/create-table.js'
+import getNpmPkgInfo from '../cli/lib/get-npm-pkg-info.js'
 import _path from 'path'
-
-const npmUrl = 'https://registry.npmjs.com'
 
 async function run (applet, path, ...args) {
   const { importPkg, resolvePath, importModule } = this.app.bajo
@@ -37,12 +36,7 @@ async function factory (pkgName) {
     }
 
     getNpmPkgInfo = async (name) => {
-      const resp = await fetch(`${npmUrl}/${encodeURIComponent(name)}`, {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-      return resp
+      return await getNpmPkgInfo(name)
     }
 
     getOutputFormat = () => {

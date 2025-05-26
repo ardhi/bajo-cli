@@ -1,12 +1,12 @@
 import validate from 'validate-npm-package-name'
-import resolvePath from 'bajo/boot/class/bajo-core/method/resolve-path.js'
-import isEmptyDir from 'bajo/boot/class/bajo-core/method/is-empty-dir.js'
+import resolvePath from '../../../lib/resolve-path.js'
+import isEmptyDir from '../../../lib/is-empty-dir.js'
 import path from 'path'
 import ora from 'ora'
 import delay from 'delay'
 import fs from 'fs-extra'
 import { __ } from '../../../lib/translate.js'
-import getNpmPkgInfo from '../../../../bajo/method/get-npm-pkg-info.js'
+import getNpmPkgInfo from '../../../lib/get-npm-pkg-info.js'
 
 async function dirNameCheck (argv, cwd) {
   if (!cwd) cwd = resolvePath(process.cwd())
