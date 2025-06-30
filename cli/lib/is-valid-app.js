@@ -1,11 +1,7 @@
-import resolvePath from './resolve-path.js'
-import fs from 'fs'
+import { isValid } from './is-valid-plugin.js'
 
-function isValidApp (dir) {
-  dir = resolvePath(dir)
-  const hasMainDir = fs.existsSync(`${dir}/main/plugin`)
-  const hasPackageJson = fs.existsSync(`${dir}/package.json`)
-  return hasMainDir && hasPackageJson
+function isValidApp (file) {
+  return isValid(file, 'app')
 }
 
 export default isValidApp

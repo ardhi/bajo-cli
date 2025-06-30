@@ -1,6 +1,6 @@
 {
   "name": "bajo-cli",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "CLI Interface & plugin for Bajo Framework",
   "main": "index.js",
   "scripts": {
@@ -10,6 +10,9 @@
     "bajo": "./run.js"
   },
   "type": "module",
+  "bajo": {
+    "type": "plugin"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ardhi/bajo-cli.git"
