@@ -17,7 +17,7 @@ const info = {
   },
   async handler (argv) {
     const { pkg } = getCwdPkg({ argv, type: 'plugin' })
-    vertical(pick(pkg, ['name', 'version', 'description', 'author', 'license', 'homepage']))
+    vertical(pick(pkg, ['name', 'version', 'description', 'author', 'license', 'homepage', 'directory']))
   }
 }
 
