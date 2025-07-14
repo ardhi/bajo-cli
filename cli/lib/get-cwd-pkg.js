@@ -11,6 +11,7 @@ function getCwdPkg ({ argv, type }) {
   if (!cwd) fatal('Unknown bajo %s: \'%s\'. Try \'bajo %s list\' to list all installed %s', type, argv.name, type, type)
   const pkg = validator(cwd, type, true)
   if (!pkg) fatal('%s is NOT a valid bajo %s, sorry!', argv.name, type)
+  pkg.directory = cwd
   return { cwd, pkg }
 }
 
