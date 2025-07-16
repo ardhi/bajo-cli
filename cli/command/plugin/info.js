@@ -13,11 +13,18 @@ const info = {
       describe: __('Plugin name. Use \'.\' for local plugin'),
       type: 'string'
     })
+    yargs.option('npm-last-version', {
+      describe: __('Check last version on NPM'),
+      default: false,
+      type: 'boolean'
+    })
     yargs.epilog(epilog)
   },
   async handler (argv) {
-    const { pkg } = getCwdPkg({ argv, type: 'plugin' })
-    vertical(pick(pkg, ['name', 'version', 'description', 'author', 'license', 'homepage', 'directory']))
+    const { pkg } = await getCwdPkg({ argv, type: 'plugin' })
+    const picked = ['name', 'version', 'description', 'author', 'license', 'homepage', 'directory']
+    if (argv.npmLastVersion) picked.splice(2, 0, 'npmVersion')
+    vertical(pick(pkg, picked))
   }
 }
 

@@ -36,7 +36,7 @@ const run = {
     yargs.epilog(epilog)
   },
   async handler (argv) {
-    const { cwd, pkg } = getCwdPkg({ argv, type: 'main' })
+    const { cwd, pkg } = await getCwdPkg({ argv, type: 'main' })
     if (has(argv, 'tool')) argv.spawn = false
     if (argv.spawn) {
       const params = process.argv.slice(process.argv[2] === 'run' ? 4 : 5)

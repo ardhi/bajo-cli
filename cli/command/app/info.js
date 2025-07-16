@@ -16,8 +16,10 @@ const info = {
     yargs.epilog(epilog)
   },
   async handler (argv) {
-    const { pkg } = getCwdPkg({ argv, type: 'app' })
-    vertical(pick(pkg, ['name', 'version', 'description', 'author', 'license', 'homepage']))
+    const { pkg } = await getCwdPkg({ argv, type: 'app' })
+    const picked = ['name', 'version', 'description', 'author', 'license', 'homepage', 'directory']
+    if (argv.npmLastVersion) picked.splice(2, 0, 'npmVersion')
+    vertical(pick(pkg, picked))
   }
 }
 

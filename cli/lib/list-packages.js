@@ -1,16 +1,20 @@
 import { horizontal } from './create-table.js'
-import isValidPlugin from './is-valid-plugin.js'
-import isValidApp from './is-valid-app.js'
-import readJson from './read-json.js'
+import { __ } from '../lib/translate.js'
+import ora from 'ora'
+import delay from 'delay'
+import getPkg from './get-pkg.js'
 
-function listPackages (files = [], type) {
-  const validator = type === 'app' ? isValidApp : isValidPlugin
+async function listPackages (files = [], type, argv) {
   const coll = []
+  const spinner = ora(__('Collecting plugins...')).start()
   for (const f of files) {
-    const pkg = readJson(f)
-    if (!validator(pkg, type)) continue
-    coll.push({ name: pkg.name, version: pkg.version, description: pkg.description })
+    const info = await getPkg(f, type, argv.npmLastVersion)
+    if (!info) continue
+    spinner.text = info.name
+    if (!argv.npmLastVersion) await delay(20)
+    coll.push(info)
   }
+  spinner.stop()
   horizontal(coll)
 }
 

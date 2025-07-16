@@ -9,13 +9,18 @@ const list = {
   aliases: ['l'],
   describe: __('List all installed plugins'),
   builder (yargs) {
+    yargs.option('npm-last-version', {
+      describe: __('Check last version on NPM'),
+      default: false,
+      type: 'boolean'
+    })
     yargs.epilog(epilog)
   },
   async handler (argv) {
     const nodeModules = getGlobalModuleDir(null, false)
     const pattern = `${nodeModules}/**/*/package.json`
     const files = await fastGlob(pattern)
-    listPackages(files)
+    await listPackages(files, 'plugin', argv)
   }
 }
 
