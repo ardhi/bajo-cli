@@ -8,7 +8,7 @@ import delay from 'delay'
 
 async function getPkg (file, type, npmLastVersion) {
   const validator = type === 'app' ? isValidApp : isValidPlugin
-  if (type === 'plugin' && path.basename !== 'package.json') file += '/package.json'
+  if (type === 'plugin' && path.basename(file) !== 'package.json') file += '/package.json'
   const pkg = readJson(file)
   if (!validator(pkg, type)) return
   const info = { name: pkg.name, version: pkg.version }
