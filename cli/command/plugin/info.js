@@ -18,12 +18,16 @@ const info = {
       default: false,
       type: 'boolean'
     })
+    yargs.option('registry', {
+      describe: __('Custom NPM registry, if any'),
+      type: 'string'
+    })
     yargs.epilog(epilog)
   },
   async handler (argv) {
     const { pkg } = await getCwdPkg({ argv, type: 'plugin' })
     const picked = ['name', 'version', 'description', 'author', 'license', 'homepage', 'directory']
-    if (argv.npmLastVersion) picked.splice(2, 0, 'npmVersion')
+    if (argv.npmLastVersion) picked.splice(2, 0, 'npmVersion', 'latest')
     vertical(pick(pkg, picked))
   }
 }

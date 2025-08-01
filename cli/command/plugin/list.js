@@ -14,6 +14,11 @@ const list = {
       default: false,
       type: 'boolean'
     })
+    yargs.option('registry', {
+      describe: __('Custom NPM registry, if any'),
+      default: false,
+      type: 'string'
+    })
     yargs.epilog(epilog)
   },
   async handler (argv) {

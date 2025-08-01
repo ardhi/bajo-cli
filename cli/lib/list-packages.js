@@ -8,7 +8,7 @@ async function listPackages (files = [], type, argv) {
   const coll = []
   const spinner = ora(__('Collecting plugins...')).start()
   for (const f of files) {
-    const info = await getPkg(f, type, argv.npmLastVersion)
+    const info = await getPkg(f, type, argv)
     if (!info) continue
     spinner.text = info.name
     if (!argv.npmLastVersion) await delay(20)
