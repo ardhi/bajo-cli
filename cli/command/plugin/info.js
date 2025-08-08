@@ -13,7 +13,7 @@ const info = {
       describe: __('Plugin name. Use \'.\' for local plugin'),
       type: 'string'
     })
-    yargs.option('npm-last-version', {
+    yargs.option('npm-version', {
       describe: __('Check last version on NPM'),
       default: false,
       type: 'boolean'
@@ -27,7 +27,7 @@ const info = {
   async handler (argv) {
     const { pkg } = await getCwdPkg({ argv, type: 'plugin' })
     const picked = ['name', 'version', 'description', 'author', 'license', 'homepage', 'directory']
-    if (argv.npmLastVersion) picked.splice(2, 0, 'npmVersion', 'latest')
+    if (argv.npmVersion) picked.splice(2, 0, 'npmVersion', 'match')
     vertical(pick(pkg, picked))
   }
 }

@@ -14,14 +14,12 @@ async function getPkg (file, type, argv) {
   const pkg = readJson(file)
   if (!validator(pkg, type)) return
   const info = { name: pkg.name, version: pkg.version }
-  if (argv.npmLastVersion) {
+  if (argv.npmVersion) {
     const resp = await getNpmPkgInfo(pkg.name, argv.registry)
-    if (resp) {
-      info.npmVersion = get(resp, 'dist-tags.latest', last(keys(resp.versions)))
-      if (info.npmVersion === info.version) info.latest = true
-    }
+    info.npmVersion = resp ? get(resp, 'dist-tags.latest', last(keys(resp.versions))) : ''
+    info.match = info.npmVersion === info.version
   } else {
-    await delay(20)
+    await delay(10)
   }
   info.description = pkg.description
   return info

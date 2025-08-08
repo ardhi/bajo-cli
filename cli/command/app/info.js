@@ -18,7 +18,7 @@ const info = {
   async handler (argv) {
     const { pkg } = await getCwdPkg({ argv, type: 'app' })
     const picked = ['name', 'version', 'description', 'author', 'license', 'homepage', 'directory']
-    if (argv.npmLastVersion) picked.splice(2, 0, 'npmVersion')
+    if (argv.npmVersion) picked.splice(2, 0, 'npmVersion')
     vertical(pick(pkg, picked))
   }
 }

@@ -11,8 +11,10 @@ async function listPackages (files = [], type, argv) {
     const info = await getPkg(f, type, argv)
     if (!info) continue
     spinner.text = info.name
-    if (!argv.npmLastVersion) await delay(20)
-    coll.push(info)
+    if (!argv.npmVersion) await delay(10)
+    if (argv.onlyUnmatch && argv.npmVersion) {
+      if (!info.match) coll.push(info)
+    } else coll.push(info)
   }
   spinner.stop()
   horizontal(coll)

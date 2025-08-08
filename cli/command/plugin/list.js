@@ -9,7 +9,7 @@ const list = {
   aliases: ['l'],
   describe: __('List all installed plugins'),
   builder (yargs) {
-    yargs.option('npm-last-version', {
+    yargs.option('npm-version', {
       describe: __('Check last version on NPM'),
       default: false,
       type: 'boolean'
@@ -18,6 +18,11 @@ const list = {
       describe: __('Custom NPM registry, if any'),
       default: false,
       type: 'string'
+    })
+    yargs.option('only-unmatch', {
+      describe: __('Only unmatch versions'),
+      default: false,
+      type: 'boolean'
     })
     yargs.epilog(epilog)
   },
