@@ -5,7 +5,7 @@ import {} from 'lodash-es'
 
 const plugin = buildCliSubcommand({
   command: __('%s <%s>', 'plugin', 'action'),
-  aliases: ['a'],
+  aliases: ['p'],
   describe: __('Plugins manager'),
   commands
 })

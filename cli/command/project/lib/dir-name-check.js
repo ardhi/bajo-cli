@@ -10,10 +10,11 @@ import getNpmPkgInfo from '../../../lib/get-npm-pkg-info.js'
 
 async function dirNameCheck (argv, cwd) {
   if (!cwd) cwd = resolvePath(process.cwd())
-  if (argv.name === '.\\') argv.name = './'
-  if (['.', './'].includes(argv.name)) {
-    argv.name = path.basename(cwd)
-  } else cwd = `${cwd}/${argv.name}`
+  if (argv.name === '.') {
+    argv.name = path.basename(cwd).toLowerCase()
+    cwd += '/..'
+  }
+  // check name
   const spinner = ora(__('Checking name')).start()
   await delay(1000)
   const nameCheck = validate(argv.name)
@@ -24,20 +25,23 @@ async function dirNameCheck (argv, cwd) {
   }
   if (argv.checkRemote) {
     try {
-      const resp = await getNpmPkgInfo(argv.name)
-      if (resp.status !== 404) {
+      const resp = await getNpmPkgInfo(argv.name, argv.registry)
+      if (resp && resp.status !== 404) {
         spinner.fail(__('Package name \'%s\' is already taken on npm registry. Aborted!', argv.name))
         process.kill(process.pid, 'SIGINT')
         return
       }
     } catch (err) {
-      spinner.fail(__('Can\'t check \'%s\' against npm registry. Aborted!', argv.name))
+      spinner.fail(__('Can\'t check \'%s\' against npm registry: %s. Aborted!', argv.name, err.message))
       process.kill(process.pid, 'SIGINT')
       return
     }
   }
+  // check dir
+  const parts = argv.name.split('/')
+  cwd = parts.length === 1 ? `${cwd}/${argv.name}` : `${cwd}/${parts[0].replace('@', '')}-${parts[1]}`
   if (fs.existsSync(cwd) && !(await isEmptyDir(cwd))) {
-    spinner.fail(__('Dir \'%s\' is NOT empty. Aborted!', path.resolve(cwd)))
+    spinner.fail(__('Directory \'%s\' is NOT empty. Aborted!', path.resolve(cwd)))
     process.kill(process.pid, 'SIGINT')
     return
   }

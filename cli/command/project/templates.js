@@ -3,10 +3,10 @@ import path from 'path'
 import fs from 'fs-extra'
 import epilog from '../../lib/epilog.js'
 import { horizontal } from '../../lib/create-table.js'
-import { __ } from '../../lib/translate.js'
+import { fatal, __ } from '../../lib/translate.js'
 
-const listTemplate = {
-  command: __('%s <%s>', 'list-template', 'type'),
+const templates = {
+  command: __('%s <%s>', 'templates', 'type'),
   aliases: ['lt'],
   describe: __('List project templates'),
   builder (yargs) {
@@ -19,7 +19,7 @@ const listTemplate = {
   },
   async handler (argv) {
     const dirs = await listTpl(argv.type)
-    if (dirs.length === 0) return
+    if (dirs.length === 0) fatal('No template found, sorry!')
     const coll = []
     for (const d of dirs) {
       const name = path.basename(d)
@@ -36,4 +36,4 @@ const listTemplate = {
   }
 }
 
-export default listTemplate
+export default templates

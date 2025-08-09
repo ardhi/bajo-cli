@@ -15,7 +15,12 @@ const createApp = {
       type: 'string'
     })
     yargs.positional('tpl', {
-      describe: __('Template to use. Omit for interactive session'),
+      describe: __('Template to use. Leave blank for interactive session'),
+      type: 'string'
+    })
+    yargs.option('registry', {
+      describe: __('Custom NPM registry, if any'),
+      default: false,
       type: 'string'
     })
     yargs.option('check-remote', {

@@ -4,6 +4,9 @@
   "description": "",
   "main": "index.js",
   "type": "module",
+  "bajo": {
+    "type": "app"
+  },
   "dependencies": {},
   "devDependencies": {},
   "scripts": {
@@ -15,5 +18,5 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "MIT"
 }

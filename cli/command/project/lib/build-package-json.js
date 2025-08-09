@@ -4,8 +4,8 @@ import { get, without, trim, map } from 'lodash-es'
 import { __ } from '../../../lib/translate.js'
 import boxen from 'boxen'
 
-async function buildPackageJson ({ argv, session }) {
-  const pkg = { name: argv.name, type: 'module', main: 'index.js' }
+async function buildPackageJson ({ argv, session, type }) {
+  const pkg = { name: argv.name, type: 'module', main: 'index.js', bajo: { type } }
   pkg.version = await input({
     message: __('Version'),
     default: get(session, 'pkg.version', '0.0.1'),

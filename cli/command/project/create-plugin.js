@@ -8,14 +8,14 @@ import { __ } from '../../lib/translate.js'
 const createPlugin = {
   command: __('%s <%s> [%s]', 'create-plugin', 'name', 'tpl'),
   aliases: ['cp'],
-  describe: __(`Create plugin project`),
+  describe: __('Create plugin project'),
   builder (yargs) {
     yargs.positional('name', {
-      describe: __(`Any valid npm name. Use '.' to use current dir`),
+      describe: __('Any valid npm name'),
       type: 'string'
     })
     yargs.positional('tpl', {
-      describe: __(`Template to use. Omit for interactive session`),
+      describe: __('Template to use. Leave blank for interactive session'),
       type: 'string'
     })
     yargs.option('check-remote', {

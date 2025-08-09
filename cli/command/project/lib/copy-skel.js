@@ -8,7 +8,7 @@ import { __ } from '../../../lib/translate.js'
 async function copySkel ({ cwd, tplDir }) {
   const spinner = ora(__('Copy project skeleton')).start()
   await delay(1000)
-  const dirs = await fastGlob(`${tplDir}/*`, { onlyDirectories: true })
+  const dirs = await fastGlob(`${tplDir}/skel/*`, { onlyDirectories: true })
   for (const d of dirs) {
     try {
       const base = path.basename(d)

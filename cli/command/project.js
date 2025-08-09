@@ -7,7 +7,7 @@ export const usage = '...'
 
 const project = buildCliSubcommand({
   command: __('%s <%s>', 'project', 'action'),
-  aliases: ['p'],
+  aliases: ['j'],
   describe: __('Project builder'),
   commands
 })

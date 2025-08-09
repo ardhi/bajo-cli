@@ -1,10 +1,10 @@
-import {} from 'lodash-es'
 import fs from 'fs-extra'
 import ensureDir from '../lib/ensure-dir.js'
 import writePackageJson from '../lib/write-package-json.js'
 import copyRootFiles from '../lib/copy-root-files.js'
 import copySkel from '../lib/copy-skel.js'
 import installPackages from '../lib/install-packages.js'
+import modifyReadme from '../lib/modify-readme.js'
 import tplCheck from '../lib/tpl-check.js'
 import { __ } from '../../../lib/translate.js'
 import ora from 'ora'
@@ -13,22 +13,19 @@ async function withTpl ({ argv, cwd, type }) {
   const tplDir = await tplCheck({ type, argv })
   let pkg
   try {
-    pkg = fs.readJSONSync(`${tplDir}/package.json`)
+    pkg = await fs.readJSON(`${tplDir}/skel/package.json`)
   } catch (err) {
-    try {
-      pkg = await fs.readJSON(`${tplDir}/../../root/package.json`)
-    } catch (err) {
-    }
   }
   pkg.name = argv.name
-  pkg.packageManager = 'npm@9.1.3'
-  pkg.dependencies['global-modules-path'] = '^3.0.0'
+  pkg.packageManager = 'npm'
+  pkg.dependencies.bajo = 'latest'
   await ensureDir(cwd)
   await writePackageJson({ argv, cwd, pkg })
-  await copyRootFiles({ pkg, cwd, tplDir, files: ['.env', '.gitignore', 'README.md', 'index-hybrid.js:index.js'] })
+  await copyRootFiles({ pkg, cwd, tplDir, files: ['.env', '.gitignore', 'README.md', 'index-local.js:index.js'] })
+  await modifyReadme({ cwd, argv })
   await copySkel({ cwd, tplDir })
   await installPackages()
-  ora(__('Done!')).succeed()
+  ora(__('Done!')).info()
 }
 
 export default withTpl

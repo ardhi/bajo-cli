@@ -8,12 +8,9 @@ import { __ } from '../../../lib/translate.js'
 
 const plugins = [
   { value: 'bajo-config' },
-  { value: 'bajo-emitter' },
-  { value: 'bajo-logger' },
-  { value: 'bajo-mqtt' },
-  { value: 'bajo-serialport' },
+  { value: 'bajo-extra' },
   { value: 'bajo-sysinfo' },
-  { value: 'bajo-web' }
+  { value: 'bajo-template' }
 ]
 
 async function customInstall ({ argv, type, session }) {
@@ -61,7 +58,7 @@ async function customInstall ({ argv, type, session }) {
       return p
     })
     ext.dependencies = await checkbox({
-      message: __('Choose other plugins that your plugin dependent of:'),
+      message: __('Choose your plugins dependencies:'),
       default: get(session, 'ext.dependencies', []),
       choices
     })
