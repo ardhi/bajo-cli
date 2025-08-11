@@ -1,8 +1,8 @@
 import emptyDir from 'empty-dir'
 
-async function isEmptyDir (dir) {
-  // fs.existsSync(dir)
-  return await emptyDir(dir)
+async function isEmptyDir (dir, filter) {
+  if (!filter) filter = (path) => ['.git'].includes(path)
+  return await emptyDir(dir, filter)
 }
 
 export default isEmptyDir
