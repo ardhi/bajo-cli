@@ -18,9 +18,15 @@ const appToPlugin = {
       describe: __('New plugin name'),
       type: 'string'
     })
-    yargs.option('check-remote', {
-      describe: __('Check npm repository for name availability'),
+    yargs.option('check-npm', {
+      describe: __('Check npm for name availability'),
+      alias: 'c',
       type: 'boolean'
+    })
+    yargs.option('registry', {
+      describe: __('Custom registry, will enable check-npm if set'),
+      alias: 'r',
+      type: 'string'
     })
     yargs.epilog(epilog)
   },

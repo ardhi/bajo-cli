@@ -12,6 +12,7 @@ import tplCheck from '../lib/tpl-check.js'
 import { __ } from '../../../lib/translate.js'
 import fs from 'fs-extra'
 import ora from 'ora'
+import { isEmpty } from 'lodash-es'
 
 async function interactive ({ argv, cwd, type, session }) {
   session.pkg = await buildPackageJson({ argv, session, type })
@@ -40,12 +41,12 @@ async function interactive ({ argv, cwd, type, session }) {
   await copyRootFiles({ pkg, cwd, tplDir, files: ['.env', '.gitignore', 'README.md', `index-${session.ext.bootFile}.js:index.js`] })
   await modifyReadme({ cwd, argv })
   await copySkel({ cwd, tplDir })
+  if (!(isEmpty(pkg.dependencies) && isEmpty(pkg.devDependencies))) await installPackages()
   if (session.ext.plugins.length > 0) {
     const file = `${cwd}/data/config/.plugins`
     const contents = session.ext.plugins.join('\n')
     fs.writeFileSync(file, contents, 'utf8')
   }
-  await installPackages()
   ora(__('Done!')).info()
 }
 

@@ -9,11 +9,6 @@ import { __ } from '../../../lib/translate.js'
 import getNpmPkgInfo from '../../../lib/get-npm-pkg-info.js'
 
 async function dirNameCheck (argv, cwd) {
-  if (!cwd) cwd = resolvePath(process.cwd())
-  if (argv.name === '.') {
-    argv.name = path.basename(cwd).toLowerCase()
-    cwd += '/..'
-  }
   // check name
   const spinner = ora(__('Checking name')).start()
   await delay(1000)
@@ -23,7 +18,8 @@ async function dirNameCheck (argv, cwd) {
     process.kill(process.pid, 'SIGINT')
     return
   }
-  if (argv.checkRemote) {
+  if (argv.registry) argv.checkNpm = true
+  if (argv.checkNpm) {
     try {
       const resp = await getNpmPkgInfo(argv.name, argv.registry)
       if (resp && resp.status !== 404) {
@@ -38,8 +34,10 @@ async function dirNameCheck (argv, cwd) {
     }
   }
   // check dir
+  if (!cwd) cwd = resolvePath(process.cwd())
   const parts = argv.name.split('/')
   cwd = parts.length === 1 ? `${cwd}/${argv.name}` : `${cwd}/${parts[0].replace('@', '')}-${parts[1]}`
+  if (argv.useCwd) cwd = resolvePath(process.cwd())
   if (fs.existsSync(cwd) && !(await isEmptyDir(cwd))) {
     spinner.fail(__('Directory \'%s\' is NOT empty. Aborted!', path.resolve(cwd)))
     process.kill(process.pid, 'SIGINT')

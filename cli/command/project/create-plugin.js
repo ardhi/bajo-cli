@@ -15,12 +15,28 @@ const createPlugin = {
       type: 'string'
     })
     yargs.positional('tpl', {
-      describe: __('Template to use. Leave blank for interactive session'),
+      describe: __('Template to use. Leave blank for interactive mode'),
       type: 'string'
     })
-    yargs.option('check-remote', {
-      describe: __('Check npm repository for name availability'),
+    yargs.option('use-cwd', {
+      describe: __('Use current working directory'),
+      alias: 'd',
       type: 'boolean'
+    })
+    yargs.option('interactive', {
+      describe: __('Always in interactive mode'),
+      alias: 'i',
+      type: 'boolean'
+    })
+    yargs.option('check-npm', {
+      describe: __('Check npm for name availability'),
+      alias: 'c',
+      type: 'boolean'
+    })
+    yargs.option('registry', {
+      describe: __('Custom registry, will enable check-npm if set'),
+      alias: 'r',
+      type: 'string'
     })
     yargs.epilog(epilog)
   },
@@ -28,7 +44,8 @@ const createPlugin = {
     const cwd = await dirNameCheck(argv)
     const type = 'plugin'
     const session = {}
-    if (argv.tpl) await withTpl({ argv, cwd, type })
+    if (argv.interactive) await interactive({ argv, cwd, type, session })
+    else if (argv.tpl) await withTpl({ argv, cwd, type })
     else await interactive({ argv, cwd, type, session })
   }
 }

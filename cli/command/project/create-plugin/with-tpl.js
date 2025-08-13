@@ -9,6 +9,7 @@ import modifyReadme from '../lib/modify-readme.js'
 import tplCheck from '../lib/tpl-check.js'
 import { __ } from '../../../lib/translate.js'
 import ora from 'ora'
+import { isEmpty } from 'lodash-es'
 
 async function withTpl ({ argv, cwd, type }) {
   const tplDir = await tplCheck({ type, argv })
@@ -25,7 +26,7 @@ async function withTpl ({ argv, cwd, type }) {
   await modifyPluginFactory({ cwd, argv })
   await modifyReadme({ cwd, argv })
   await copySkel({ cwd, tplDir })
-  await installPackages()
+  if (!(isEmpty(pkg.dependencies) && isEmpty(pkg.devDependencies))) await installPackages()
   ora(__('Done!')).info()
 }
 
