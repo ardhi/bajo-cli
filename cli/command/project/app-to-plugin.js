@@ -8,26 +8,16 @@ import delay from 'delay'
 import dirNameCheck from './lib/dir-name-check.js'
 import { pick } from 'lodash-es'
 import { __ } from '../../lib/translate.js'
+import { checkNpmName, posName, registry } from '../../lib/option.js'
 
 const appToPlugin = {
-  command: __('%s <%s>', 'app-to-plugin', 'new-name'),
+  command: __('%s <%s>', 'app-to-plugin', 'name'),
   aliases: ['ap'],
   describe: __('Convert app to plugin'),
   builder (yargs) {
-    yargs.positional('new-name', {
-      describe: __('New plugin name'),
-      type: 'string'
-    })
-    yargs.option('check-npm', {
-      describe: __('Check npm for name availability'),
-      alias: 'c',
-      type: 'boolean'
-    })
-    yargs.option('registry', {
-      describe: __('Custom registry, will enable check-npm if set'),
-      alias: 'r',
-      type: 'string'
-    })
+    posName(yargs, 'New plugin name')
+    checkNpmName(yargs)
+    registry(yargs, 'Custom registry, will enable check-npm if set')
     yargs.epilog(epilog)
   },
   async handler (argv) {

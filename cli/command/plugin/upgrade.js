@@ -1,47 +1,25 @@
-import fastGlob from 'fast-glob'
-import getGlobalModuleDir from '../../lib/get-global-module-dir.js'
 import epilog from '../../lib/epilog.js'
 import listPackages from '../../lib/list-packages.js'
-import resolvePath from '../../lib/resolve-path.js'
-import isValidApp from '../../lib/is-valid-app.js'
 import { fatal, __, print } from '../../lib/translate.js'
 import isEmpty from 'lodash-es/isEmpty.js'
 import ora from 'ora'
 import semver from 'semver'
 import select from '@inquirer/select'
 import { addDependency } from 'nypm'
+import { globalScope, registry } from '../../lib/option.js'
+import { getFiles } from './list.js'
 
 const upgrade = {
   command: 'upgrade',
   aliases: ['u'],
   describe: __('Upgrade all plugins to the latest version'),
   builder (yargs) {
-    yargs.option('global', {
-      describe: __('Global plugins'),
-      default: false,
-      type: 'boolean'
-    })
-    yargs.option('registry', {
-      describe: __('Custom NPM registry, if any'),
-      default: false,
-      type: 'string'
-    })
+    globalScope(yargs)
+    registry(yargs)
     yargs.epilog(epilog)
   },
   async handler (argv) {
-    let files = []
-    if (argv.global) {
-      const nodeModules = getGlobalModuleDir(null, false)
-      const pattern = `${nodeModules}/**/*/package.json`
-      files = await fastGlob(pattern)
-    } else {
-      const cwd = resolvePath(process.cwd())
-      const name = __('Current directory')
-      if (!isValidApp(cwd)) fatal('%s is NOT a valid bajo %s, sorry!', name, 'app')
-      const pattern = `${cwd}/node_modules/**/*/package.json`
-      files = await fastGlob(pattern)
-    }
-    if (files.length === 0) fatal('No %ss detected!', 'plugin')
+    const files = await getFiles(argv, 'plugin')
     argv.onlyUnmatch = true
     argv.npmVersion = true
     const coll = await listPackages(files, 'plugin', argv)

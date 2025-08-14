@@ -4,17 +4,14 @@ import fs from 'fs-extra'
 import epilog from '../../lib/epilog.js'
 import { horizontal } from '../../lib/create-table.js'
 import { fatal, __ } from '../../lib/translate.js'
+import { posTplType } from '../../lib/option.js'
 
 const templates = {
   command: __('%s <%s>', 'templates', 'type'),
   aliases: ['lt'],
   describe: __('List project templates'),
   builder (yargs) {
-    yargs.positional('type', {
-      describe: __('Template type'),
-      choices: ['app', 'plugin'],
-      type: 'string'
-    })
+    posTplType(yargs)
     yargs.epilog(epilog)
   },
   async handler (argv) {

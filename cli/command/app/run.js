@@ -8,6 +8,7 @@ import { __ } from '../../lib/translate.js'
 
 import util from 'util'
 import _terminate from 'terminate'
+import { applet, globalScope, posArgs, posName } from '../../lib/option.js'
 
 const terminate = util.promisify(_terminate)
 
@@ -16,23 +17,11 @@ const run = {
   aliases: ['r'],
   describe: __('Run named app'),
   builder (yargs) {
-    yargs.positional('name', {
-      describe: __('App name. Use \'.\' for local app'),
-      type: 'string'
-    })
-    yargs.positional('args', {
-      describe: __('Optional one or more arguments')
-    })
-    yargs.option('tool', {
-      describe: __('Run side tool (if any) instead of main program'),
-      alias: 't',
-      type: 'string'
-    })
-    yargs.option('spawn', {
-      describe: __('Spawn app as child process'),
-      default: true,
-      type: 'boolean'
-    })
+    posName(yargs, 'App name')
+    posArgs(yargs)
+    globalScope(yargs)
+    applet(yargs)
+    spawn(yargs)
     yargs.epilog(epilog)
   },
   async handler (argv) {

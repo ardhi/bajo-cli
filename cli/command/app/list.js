@@ -1,21 +1,23 @@
-import getGlobalModuleDir from '../../lib/get-global-module-dir.js'
-import fastGlob from 'fast-glob'
 import epilog from '../../lib/epilog.js'
 import listPackages from '../../lib/list-packages.js'
 import { __ } from '../../lib/translate.js'
+import { globalScope } from '../../lib/option.js'
+import { horizontal } from '../../lib/create-table.js'
+import { getFiles } from '../plugin/list.js'
 
 const list = {
   command: 'list',
   aliases: ['l'],
   describe: __('List all installed applications'),
   builder (yargs) {
+    globalScope(yargs)
     yargs.epilog(epilog)
   },
   async handler (argv) {
-    const nodeModules = getGlobalModuleDir(null, false)
-    const pattern = `${nodeModules}/**/*/package.json`
-    const files = await fastGlob(pattern)
-    listPackages(files, 'app')
+    const files = await getFiles(argv, 'app', true)
+    const picked = ['name', 'version', 'npmVersion', 'versionMatch', 'description']
+    const coll = await listPackages(files, 'app', argv, picked)
+    horizontal(coll)
   }
 }
 
