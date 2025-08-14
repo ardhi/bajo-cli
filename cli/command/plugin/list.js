@@ -8,7 +8,7 @@ import { fatal, __ } from '../../lib/translate.js'
 import { horizontal } from '../../lib/create-table.js'
 import { globalScope, npmVersion, onlyUnmatch, registry } from '../../lib/option.js'
 
-export async function getFiles (argv, type) {
+export async function getFiles (argv, type, checkRoot) {
   let files = []
   if (argv.global) {
     const nodeModules = getGlobalModuleDir(null, false)
@@ -17,8 +17,13 @@ export async function getFiles (argv, type) {
   } else {
     const cwd = resolvePath(process.cwd())
     const name = __('Current directory')
-    if (!isValid(cwd, type)) fatal('%s is NOT a valid bajo %s, sorry!', name, type)
-    const pattern = [`${cwd}/node_modules/*/package.json`, `${cwd}/node_modules/@*/*/package.json`]
+    let pattern
+    if (checkRoot) {
+      pattern = [`${cwd}/*/package.json`]
+    } else {
+      if (!isValid(cwd, type)) fatal('%s is NOT a valid bajo %s, sorry!', name, type)
+      pattern = [`${cwd}/node_modules/*/package.json`, `${cwd}/node_modules/@*/*/package.json`]
+    }
     files = await fastGlob(pattern)
   }
   if (files.length === 0) fatal('No %ss detected!', 'plugin')

@@ -14,7 +14,7 @@ const list = {
     yargs.epilog(epilog)
   },
   async handler (argv) {
-    const files = await getFiles(argv, 'app', true)
+    const files = await getFiles(argv, 'app', !argv.global)
     const picked = ['name', 'version', 'npmVersion', 'versionMatch', 'description']
     const coll = await listPackages(files, 'app', argv, picked)
     horizontal(coll)
