@@ -41,7 +41,8 @@ const upgrade = {
     })
     if (answer === 'n') fatal('Aborted')
     const opts = {
-      global: argv.global
+      global: argv.global,
+      packageManager: 'npm'
     }
     for (const u of upgradable) {
       await addDependency(`${u.name}@${u.npmVersion}`, opts)
