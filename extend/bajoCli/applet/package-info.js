@@ -14,17 +14,13 @@ async function packageInfo (...args) {
   }
   const spin = this.print.spinner().start('Retrieving...')
   const resp = await getNpmPkgInfo(pkg)
-  if (resp.status === 404) {
+  if (!resp) {
     spin.fail('Unknown package \'%s\'. Aborted!', pkg)
-    if (!this.app.bajo.config.applet) return
-  }
-  if (resp.status !== 200) {
-    spin.fail('Can\'t check \'%s\' against npm registry. Aborted!', pkg)
     if (!this.app.bajo.config.applet) return
   }
   spin.info('Done!')
   const omitted = ['readme', 'versions']
-  const result = omit(await resp.json(), omitted)
+  const result = omit(resp, omitted)
   await writeOutput(result, 'packageInfo', format)
 }
 

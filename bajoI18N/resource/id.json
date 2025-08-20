@@ -1,6 +1,0 @@
-{
-  "Unknown package '%s'. Aborted!": "Paket '%s' tidak dikenal. Batalkan!",
-  "Can't check '%s' against npm registry. Aborted!": "Tidak bisa mengecek '%s' di katalog npm. Batalkan!",
-  "Package name:": "Nama paket:",
-  "Tool '%s' is running background...": "Perkakas '%s' sedang berjalan di belakang layar..."
-}
