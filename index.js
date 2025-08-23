@@ -29,7 +29,7 @@ async function run (applet, path, ...args) {
 async function factory (pkgName) {
   const me = this
 
-  return class BajoCli extends this.lib.BajoPlugin {
+  return class BajoCli extends this.lib.Plugin {
     constructor () {
       super(pkgName, me.app)
       this.alias = 'cli'
