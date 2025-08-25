@@ -30,9 +30,10 @@ async function factory (pkgName) {
   const me = this
 
   return class BajoCli extends this.lib.Plugin {
+    static alias = 'cli'
+
     constructor () {
       super(pkgName, me.app)
-      this.alias = 'cli'
     }
 
     getNpmPkgInfo = async (name) => {
