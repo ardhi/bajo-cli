@@ -3,7 +3,7 @@ import fs from 'fs'
 
 function readJson (file, thrownNotFound = false) {
   if (isPlainObject(thrownNotFound)) thrownNotFound = false
-  if (!fs.existsSync(file) && thrownNotFound) throw this.error('notFound%s%s', this.print.write('file'), file)
+  if (!fs.existsSync(file) && thrownNotFound) throw this.error('notFound%s%s', this.t('file'), file)
   let resp
   try {
     resp = fs.readFileSync(file, 'utf8')

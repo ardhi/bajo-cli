@@ -4,8 +4,8 @@ import _path from 'path'
 
 async function run (applet, path, ...args) {
   const { importPkg, resolvePath, importModule } = this.app.bajo
-  const { fastGlob } = this.lib
-  const { camelCase, map, find } = this.lib._
+  const { fastGlob } = this.app.lib
+  const { camelCase, map, find } = this.app.lib._
   const select = await importPkg('bajoCli:@inquirer/select')
   const dir = `${_path.dirname(applet.file)}/applet`
 
@@ -15,7 +15,7 @@ async function run (applet, path, ...args) {
   })
   if (!path) {
     path = await select({
-      message: this.print.write('Please select a method:'),
+      message: this.t('Please select a method:'),
       pageSize: 10,
       choices
     })
@@ -23,13 +23,13 @@ async function run (applet, path, ...args) {
   const item = find(choices, { value: path })
   if (!item) this.print.fatal('Unknown method \'%s\'', path)
   const mod = await importModule(item.file)
-  return await mod.call(this.app[applet.ns], ...args)
+  return await mod.call(this.app[applet.ns], path, ...args)
 }
 
 async function factory (pkgName) {
   const me = this
 
-  return class BajoCli extends this.lib.Plugin {
+  return class BajoCli extends this.app.pluginClass.base {
     static alias = 'cli'
 
     constructor () {
@@ -41,7 +41,7 @@ async function factory (pkgName) {
     }
 
     getOutputFormat = () => {
-      const { get } = this.lib._
+      const { get } = this.app.lib._
       const format = get(this, 'app.bajo.config.format')
       const exts = ['json']
       if (this.app.bajoConfig) exts.push('yml', 'yaml', 'toml')
@@ -54,7 +54,7 @@ async function factory (pkgName) {
     }
 
     prettyPrint = async (obj, print = false, titleFn) => {
-      const { isString, isNumber, isArray } = this.lib._
+      const { isString, isNumber, isArray } = this.app.lib._
       let result
       if (isString(obj) || isNumber(obj)) result = horizontal([{ obj }], { print, noHeader: true, titleFn })
       else if (isArray(obj)) result = horizontal(obj, { print, titleFn })
@@ -74,9 +74,9 @@ async function factory (pkgName) {
       return vertical(...args)
     }
 
-    writeOutput = async (content, path, format) => {
+    writeOutput = async (content, path, format, terminate) => {
       const { saveAsDownload, importPkg } = this.app.bajo
-      const { cloneDeep } = this.lib._
+      const { cloneDeep } = this.app.lib._
       const { prettyPrint } = this.app.bajoCli
       const stripAnsi = await importPkg('bajoCli:strip-ansi')
       let result = cloneDeep(content)
@@ -100,6 +100,7 @@ async function factory (pkgName) {
         const file = `/${path}.${format ?? 'txt'}`
         await saveAsDownload(file, stripAnsi(result))
       } else console.log(result)
+      if (terminate) process.exit()
     }
   }
 }

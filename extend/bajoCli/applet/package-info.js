@@ -2,14 +2,14 @@ import getNpmPkgInfo from '../../../cli/lib/get-npm-pkg-info.js'
 import { input } from '@inquirer/prompts'
 
 async function packageInfo (...args) {
-  const { isEmpty, omit } = this.lib._
+  const { isEmpty, omit } = this.app.lib._
   const { getOutputFormat, writeOutput } = this
   const format = getOutputFormat()
   let [pkg] = args
   if (isEmpty(pkg)) {
     pkg = await input({
-      message: this.print.write('Package name:'),
-      validate: (item) => isEmpty(item) ? this.print.write('You must provide a valid value') : true
+      message: this.t('Package name:'),
+      validate: (item) => isEmpty(item) ? this.t('You must provide a valid value') : true
     })
   }
   const spin = this.print.spinner().start('Retrieving...')
