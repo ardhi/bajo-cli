@@ -4,7 +4,8 @@
   "description": "CLI Interface & plugin for Bajo Framework",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build-doc": "jsdoc -c .jsdoc.conf.json",
+    "test": "mocha"
   },
   "bin": {
     "bajo": "./run.js"
@@ -62,5 +63,9 @@
     "terminate": "^2.8.0",
     "validate-npm-package-name": "^6.0.2",
     "yargs": "^18.0.0"
+  },
+  "devDependencies": {
+    "clean-jsdoc-theme": "^4.3.0",
+    "jsdoc-plugin-intersection": "^1.0.4"
   }
 }

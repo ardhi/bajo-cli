@@ -1,59 +1,74 @@
-import { vertical, horizontal } from './cli/lib/create-table.js'
-import getNpmPkgInfo from './cli/lib/get-npm-pkg-info.js'
 import _path from 'path'
 
-async function run (applet, path, ...args) {
-  const { importPkg, resolvePath, importModule } = this.app.bajo
-  const { fastGlob } = this.app.lib
-  const { camelCase, map, find } = this.app.lib._
-  const select = await importPkg('bajoCli:@inquirer/select')
-  const dir = `${_path.dirname(applet.file)}/applet`
-
-  const choices = map(await fastGlob(resolvePath(`${dir}/*.js`)), f => {
-    const value = camelCase(_path.basename(f.replace(dir + '/', ''), '.js'))
-    return { file: f, value }
-  })
-  if (!path) {
-    path = await select({
-      message: this.t('Please select a method:'),
-      pageSize: 10,
-      choices
-    })
-  }
-  const item = find(choices, { value: path })
-  if (!item) this.print.fatal('Unknown method \'%s\'', path)
-  const mod = await importModule(item.file)
-  return await mod.call(this.app[applet.ns], path, ...args)
-}
-
+/**
+ * Plugin factory
+ *
+ * @param {string} pkgName - NPM package name
+ * @returns {class}
+ */
 async function factory (pkgName) {
   const me = this
 
-  return class BajoCli extends this.app.pluginClass.base {
+  /**
+   * BajoCli class
+   *
+   * @class
+   */
+  class BajoCli extends this.app.pluginClass.base {
     static alias = 'cli'
 
     constructor () {
       super(pkgName, me.app)
     }
 
+    _run = async (applet, path, ...args) => {
+      const { importPkg, resolvePath, importModule } = this.app.bajo
+      const { fastGlob } = this.app.lib
+      const { camelCase, map, find } = this.app.lib._
+      const select = await importPkg('bajoCli:@inquirer/select')
+      const dir = `${_path.dirname(applet.file)}/applet`
+
+      const choices = map(await fastGlob(resolvePath(`${dir}/*.js`)), f => {
+        const value = camelCase(_path.basename(f.replace(dir + '/', ''), '.js'))
+        return { file: f, value }
+      })
+      if (!path) {
+        path = await select({
+          message: this.t('Please select a method:'),
+          pageSize: 10,
+          choices
+        })
+      }
+      const item = find(choices, { value: path })
+      if (!item) this.print.fatal('Unknown method \'%s\'', path)
+      const mod = await importModule(item.file)
+      return await mod.call(this.app[applet.ns], path, ...args)
+    }
+
     getNpmPkgInfo = async (name) => {
+      const { importModule } = this.app.bajo
+      const getNpmPkgInfo = await importModule('bajoCli:/cli/lib/get-npm-pkg-info.js')
       return await getNpmPkgInfo(name)
     }
 
     getOutputFormat = () => {
-      const { get } = this.app.lib._
-      const format = get(this, 'app.bajo.config.format')
-      const exts = ['json']
-      if (this.app.bajoConfig) exts.push('yml', 'yaml', 'toml')
-      if (format && !exts.includes(format)) this.print.fatal('Invalid format \'%s\'', format)
+      const { without, map } = this.app.lib._
+      const exts = map(without(this.app.getConfigFormats(), '.js'), ext => ext.slice(1))
+      exts.unshift('pretty')
+      const format = this.app.bajo.config.format ?? 'pretty'
+      if (!exts.includes(format)) this.print.fatal('invalid%s%s', 'format', format)
       return format
     }
 
-    hTable = (...args) => {
+    hTable = async (...args) => {
+      const { importModule } = this.app.bajo
+      const { horizontal } = await importModule('bajoCli:/cli/lib/create-table.js')
       return horizontal(...args)
     }
 
     prettyPrint = async (obj, print = false, titleFn) => {
+      const { importModule } = this.app.bajo
+      const { horizontal, vertical } = await importModule('bajoCli:/cli/lib/create-table.js', { asDefaultImport: false })
       const { isString, isNumber, isArray } = this.app.lib._
       let result
       if (isString(obj) || isNumber(obj)) result = horizontal([{ obj }], { print, noHeader: true, titleFn })
@@ -65,44 +80,37 @@ async function factory (pkgName) {
     runApplet = async (applet, path, ...args) => {
       const { importModule } = this.app.bajo
       const mod = await importModule(applet.file)
-      if (mod === 'default') return await run.call(this, applet, path, ...args)
+      if (mod === 'default') return await this._run(applet, path, ...args)
       const handler = mod.handler ?? mod
       return await handler.call(this.app[applet.ns], path, ...args)
     }
 
-    vTable = (...args) => {
+    vTable = async (...args) => {
+      const { importModule } = this.app.bajo
+      const { vertical } = await importModule('bajoCli:/cli/lib/create-table.js')
       return vertical(...args)
     }
 
-    writeOutput = async (content, path, format, terminate) => {
+    writeOutput = async (content, path, terminate) => {
       const { saveAsDownload, importPkg } = this.app.bajo
-      const { cloneDeep } = this.app.lib._
-      const { prettyPrint } = this.app.bajoCli
+      const { cloneDeep, find } = this.app.lib._
       const stripAnsi = await importPkg('bajoCli:strip-ansi')
+      const format = this.getOutputFormat()
       let result = cloneDeep(content)
-      if (['yml', 'yaml', 'toml'].includes(format) && !this.app.bajoConfig) this.print.fatal('Invalid format \'%s\'', format)
-      try {
-        switch (format) {
-          case 'yml':
-          case 'yaml': result = await this.app.bajoConfig.toYaml(result, true); break
-          case 'toml': result = await this.app.bajoConfig.toToml(result, true); break
-          case 'json':
-            if (this.app.bajoConfig) result = await this.app.bajoConfig.toJson(result, true)
-            else result = JSON.stringify(result, null, 2)
-            break
-          default:
-            result = await prettyPrint(result)
-        }
-      } catch (err) {
-        this.print.fatal('Error: %s', err.message)
+      if (format === 'pretty') result = await this.prettyPrint(result)
+      else {
+        const writer = find(this.app.configHandlers, { ext: `.${format}` })
+        result = await writer.writeHandler(result, true)
       }
       if (this.app.bajo.config.save) {
-        const file = `/${path}.${format ?? 'txt'}`
+        const file = `/${path}.${format === 'pretty' ? '.txt' : format}`
         await saveAsDownload(file, stripAnsi(result))
       } else console.log(result)
       if (terminate) process.exit()
     }
   }
+
+  return BajoCli
 }
 
 export default factory

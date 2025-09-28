@@ -1,22 +1,25 @@
 # bajo-cli
 
-Plugin name: **bajoCli**, alias: **cli**
-
 ![GitHub package.json version](https://img.shields.io/github/package-json/v/ardhi/bajo-cli) ![NPM Version](https://img.shields.io/npm/v/bajo-cli)
 
-> <br />**Attention**: I do NOT accept any pull request at the moment, thanks!<br /><br />
+> <br />**Attention**: I do NOT accept any pull requests at the moment, thanks! ([Why?](https://github.com/ardhi/bajo/blob/main/tutorial/00-welcome.md#contribution))<br /><br />
 
-CLI support & tools for [Bajo](https://github.com/ardhi/bajo). Also required to be installed if you want to run bajo's applet.
+Command Line Interface for [Bajo](https://github.com/ardhi/bajo)
 
 ## Installation
 
-Goto your ```<bajo-base-dir>``` and type:
+First, go to your ```{app-dir}``` and run the following command in your terminal:
 
 ```bash
 $ npm install bajo-cli
 ```
 
-Now open your ```<bajo-data-dir>/config/.plugins``` and put ```bajo-cli``` in it
+Next, open the file located at ```{data-dir}/config/.plugins``` and add ```bajo-cli```
+
+## Documentations
+
+- [Config Object](tutorial/00-config.md)
+- [API](https://ardhi.github.io/bajo-cli)
 
 ## License
 

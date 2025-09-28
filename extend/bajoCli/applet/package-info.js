@@ -3,8 +3,7 @@ import { input } from '@inquirer/prompts'
 
 async function packageInfo (...args) {
   const { isEmpty, omit } = this.app.lib._
-  const { getOutputFormat, writeOutput } = this
-  const format = getOutputFormat()
+  const { writeOutput } = this
   let [pkg] = args
   if (isEmpty(pkg)) {
     pkg = await input({
@@ -21,7 +20,7 @@ async function packageInfo (...args) {
   spin.info('Done!')
   const omitted = ['readme', 'versions']
   const result = omit(resp, omitted)
-  await writeOutput(result, 'packageInfo', format)
+  await writeOutput(result, 'packageInfo')
 }
 
 export default packageInfo
