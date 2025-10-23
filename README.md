@@ -2,9 +2,9 @@
 
 ![GitHub package.json version](https://img.shields.io/github/package-json/v/ardhi/bajo-cli) ![NPM Version](https://img.shields.io/npm/v/bajo-cli)
 
-> <br />**Attention**: I do NOT accept any pull request at the moment, thanks! ([Why?](CONTRIBUTING.md))<br /><br />
+> <br />**Attention**: I do NOT accept any pull request at the moment, thanks! ([Why?](wiki/CONTRIBUTING.md))<br /><br />
 
-Command Line Interface for [Bajo Framework](https://github.com/ardhi/bajo)
+Command Line Interface for [Bajo](https://github.com/ardhi/bajo)
 
 ## Installation
 
@@ -18,9 +18,9 @@ Next, open the file located at ```{data-dir}/config/.plugins``` and add ```bajo-
 
 ## Documentations
 
-- [Config Object](tutorial/00-config.md)
+- [Config Object](wiki/CONFIG.md)
 - [API](https://ardhi.github.io/bajo-cli)
-- [Contributing](CONTRIBUTING.md)
+- [Contributing](wiki/CONTRIBUTING.md)
 
 ## Hire Me
 
