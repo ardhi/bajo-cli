@@ -1,5 +1,5 @@
 import fastGlob from 'fast-glob'
-import currentLoc from '../../../lib/current-loc.js'
+import currentLoc from 'aneka/src/current-loc.js'
 
 async function listTpl (type) {
   let dir = currentLoc(import.meta).dir

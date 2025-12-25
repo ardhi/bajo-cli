@@ -1,4 +1,4 @@
-import resolvePath from './resolve-path.js'
+import resolvePath from 'aneka/src/resolve-path.js'
 import readJson from './read-json.js'
 import get from 'lodash-es/get.js'
 import isObject from 'lodash-es/isObject.js'

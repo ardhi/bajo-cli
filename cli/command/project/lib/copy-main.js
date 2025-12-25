@@ -3,7 +3,7 @@ import fs from 'fs-extra'
 import path from 'path'
 import ora from 'ora'
 import delay from 'delay'
-import resolvePath from '../../../lib/resolve-path.js'
+import resolvePath from 'aneka/src/resolve-path.js'
 import { __ } from '../../../lib/translate.js'
 import { kebabCase, camelCase, upperFirst } from 'lodash-es'
 

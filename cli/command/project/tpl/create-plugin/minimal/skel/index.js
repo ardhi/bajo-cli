@@ -1,7 +1,7 @@
 async function factory (pkgName) {
   const me = this
 
-  return class {name} extends this.app.pluginClass.base {
+  return class {name} extends this.app.baseClass.Base {
     constructor () {
       super(pkgName, me.app)
       this.alias = '{alias}'

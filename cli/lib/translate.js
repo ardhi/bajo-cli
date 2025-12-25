@@ -1,5 +1,5 @@
 import y18n from 'y18n'
-import currentLoc from './current-loc.js'
+import currentLoc from 'aneka/src/current-loc.js'
 
 export function getLang () {
   let lang

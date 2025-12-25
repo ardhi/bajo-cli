@@ -1,6 +1,6 @@
 {
   "name": "bajo-cli",
-  "version": "2.0.1",
+  "version": "2.2.0",
   "description": "CLI Interface & plugin for Bajo Framework",
   "main": "index.js",
   "scripts": {
@@ -38,6 +38,7 @@
     "@inquirer/confirm": "^5.1.14",
     "@inquirer/prompts": "^7.8.2",
     "@inquirer/rawlist": "^4.1.5",
+    "aneka": "^0.7.4",
     "bajo": "^1.2.9",
     "boxen": "^8.0.1",
     "cli-table3": "^0.6.5",

@@ -1,6 +1,6 @@
 import fs from 'fs'
 import getGlobalPath from 'get-global-path'
-import resolvePath from './resolve-path.js'
+import resolvePath from 'aneka/src/resolve-path.js'
 import { dropRight } from 'lodash-es'
 
 function getGlobalModuleDir (pkgName, silent = true) {

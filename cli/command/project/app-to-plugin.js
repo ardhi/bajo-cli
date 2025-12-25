@@ -1,6 +1,6 @@
 import isValidApp from '../../lib/is-valid-app.js'
 import epilog from '../../lib/epilog.js'
-import resolvePath from '../../lib/resolve-path.js'
+import resolvePath from 'aneka/src/resolve-path.js'
 import interactive from './app-to-plugin/interactive.js'
 import readJson from '../../lib/read-json.js'
 import ora from 'ora'

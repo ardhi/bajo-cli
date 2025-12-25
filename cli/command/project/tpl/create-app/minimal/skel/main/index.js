@@ -7,7 +7,7 @@
 async function factory (pkgName) {
   const me = this
 
-  return class Main extends this.app.pluginClass.base {
+  return class Main extends this.app.baseClass.Base {
     constructor () {
       super(pkgName, me.app)
       this.config = {

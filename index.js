@@ -8,13 +8,14 @@ import _path from 'path'
  */
 async function factory (pkgName) {
   const me = this
+  const { isFunction } = this.app.lib._
 
   /**
    * BajoCli class
    *
    * @class
    */
-  class BajoCli extends this.app.pluginClass.base {
+  class BajoCli extends this.app.baseClass.Base {
     static alias = 'cli'
 
     constructor () {
@@ -22,7 +23,8 @@ async function factory (pkgName) {
     }
 
     _run = async (applet, path, ...args) => {
-      const { importPkg, resolvePath, importModule } = this.app.bajo
+      const { importPkg, importModule } = this.app.bajo
+      const { resolvePath } = this.app.lib.aneka
       const { fastGlob } = this.app.lib
       const { camelCase, map, find } = this.app.lib._
       const select = await importPkg('bajoCli:@inquirer/select')
@@ -40,7 +42,7 @@ async function factory (pkgName) {
         })
       }
       const item = find(choices, { value: path })
-      if (!item) this.print.fatal('Unknown method \'%s\'', path)
+      if (!item) this.fatal('Unknown method \'%s\'', path)
       const mod = await importModule(item.file)
       return await mod.call(this.app[applet.ns], path, ...args)
     }
@@ -56,7 +58,7 @@ async function factory (pkgName) {
       const exts = map(without(this.app.getConfigFormats(), '.js'), ext => ext.slice(1))
       exts.unshift('pretty')
       const format = this.app.bajo.config.format ?? 'pretty'
-      if (!exts.includes(format)) this.print.fatal('invalid%s%s', 'format', format)
+      if (!exts.includes(format)) this.fatal('invalid%s%s', 'format', format)
       return format
     }
 
@@ -92,8 +94,14 @@ async function factory (pkgName) {
     }
 
     writeOutput = async (content, path, terminate) => {
+      const replacer = (k, v) => {
+        if (isFunction(v) || ['app', 'plugin'].includes(k)) return undefined
+        return v
+      }
+
       const { saveAsDownload, importPkg } = this.app.bajo
       const { cloneDeep, find } = this.app.lib._
+      content = JSON.parse(JSON.stringify(content, replacer))
       const stripAnsi = await importPkg('bajoCli:strip-ansi')
       const format = this.getOutputFormat()
       let result = cloneDeep(content)
@@ -106,7 +114,7 @@ async function factory (pkgName) {
         const file = `/${path}.${format === 'pretty' ? '.txt' : format}`
         await saveAsDownload(file, stripAnsi(result))
       } else console.log(result)
-      if (terminate) process.exit()
+      if (terminate) this.app.exit(true)
     }
   }
 

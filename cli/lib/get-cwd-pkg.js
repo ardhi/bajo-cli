@@ -1,5 +1,5 @@
 import getGlobalModuleDir from './get-global-module-dir.js'
-import resolvePath from './resolve-path.js'
+import resolvePath from 'aneka/src/resolve-path.js'
 import { fatal, __ } from './translate.js'
 import getPkg from './get-pkg.js'
 import ora from 'ora'

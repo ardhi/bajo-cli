@@ -1,7 +1,7 @@
 import epilog from '../../lib/epilog.js'
 import { dropRight } from 'lodash-es'
 import getGlobalPath from 'get-global-path'
-import resolvePath from '../../lib/resolve-path.js'
+import resolvePath from 'aneka/src/resolve-path.js'
 import { __ } from '../../lib/translate.js'
 
 const globalDir = {

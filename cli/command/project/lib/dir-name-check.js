@@ -1,5 +1,5 @@
 import validate from 'validate-npm-package-name'
-import resolvePath from '../../../lib/resolve-path.js'
+import resolvePath from 'aneka/src/resolve-path.js'
 import isEmptyDir from '../../../lib/is-empty-dir.js'
 import path from 'path'
 import ora from 'ora'
