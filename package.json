@@ -12,7 +12,8 @@
   },
   "type": "module",
   "bajo": {
-    "type": "plugin"
+    "type": "plugin",
+    "alias": "cli"
   },
   "repository": {
     "type": "git",

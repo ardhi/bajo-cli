@@ -16,8 +16,6 @@ async function factory (pkgName) {
    * @class
    */
   class BajoCli extends this.app.baseClass.Base {
-    static alias = 'cli'
-
     constructor () {
       super(pkgName, me.app)
     }

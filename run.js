@@ -9,7 +9,7 @@ const lang = getLang()
 const y = yargs(process.argv.slice(2))
 if (lang) y.locale(lang)
 
-  y.scriptName('bajo')
+y.scriptName('bajo')
   .usage(__('Usage: $0 <command> [options]'))
   .version().alias('version', 'v')
   .command(commands)
