@@ -19,12 +19,11 @@ async function withTpl ({ argv, cwd, type }) {
   } catch (err) {
   }
   pkg.name = argv.name
-  pkg.packageManager = 'npm'
   pkg.dependencies.bajo = await getLatestPlugin('bajo')
 
   await ensureDir(cwd)
   await writePackageJson({ argv, cwd, pkg })
-  await copyRootFiles({ pkg, cwd, tplDir, files: ['.env', '.gitignore', 'README.md', 'index-local.js:index.js'] })
+  await copyRootFiles({ pkg, cwd, tplDir, files: ['.env', '.gitignore', 'README.md', 'index.js'] })
   await modifyReadme({ cwd, argv })
   await copySkel({ cwd, tplDir })
   if (!(isEmpty(pkg.dependencies) && isEmpty(pkg.devDependencies))) await installPackages()

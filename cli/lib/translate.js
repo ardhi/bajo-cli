@@ -5,7 +5,7 @@ export function getLang () {
   let lang
   const item = process.argv.find(i => i.startsWith('--lang'))
   if (item) lang = item.split('=')[1]
-  return lang
+  return lang ?? 'en'
 }
 
 const baseDir = currentLoc(import.meta).dir
@@ -21,7 +21,7 @@ export function __ (...args) {
 
 export function fatal (...args) {
   console.error(instance.__(...args))
-  process.kill(process.pid, 'SIGINT')
+  process.exit(1)
 }
 
 export function print (...args) {

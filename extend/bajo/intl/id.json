@@ -1,0 +1,9 @@
+{
+  "selectMethod": "Mohon pilih metode:",
+  "unknownMethod%s": "Metode '%s' tidak dikenal",
+  "packageName": "Nama paket:",
+  "mustProvideValue": "Anda harus memberikan nilai yang valid",
+  "retrieving": "Mengambil...",
+  "unknownPackage%s": "Paket '%s' tidak dikenal. Dibatalkan!",
+  "done": "Selesai!"
+}

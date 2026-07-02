@@ -9,6 +9,12 @@ import { addDependency } from 'nypm'
 import { globalScope, registry } from '../../lib/option.js'
 import { getFiles } from './list.js'
 
+/**
+ * Command definition object for upgrading all installed plugins to the latest version.
+ *
+ * @memberof module:CLI/Command/Plugin
+ * @type {TCommand}
+ */
 const upgrade = {
   command: 'upgrade',
   aliases: ['u'],

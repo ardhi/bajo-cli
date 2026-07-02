@@ -8,6 +8,15 @@ import fs from 'fs-extra'
 import { __ } from '../../../lib/translate.js'
 import getNpmPkgInfo from '../../../lib/get-npm-pkg-info.js'
 
+/**
+ * Check the validity of the directory name and npm package name.
+ *
+ * @async
+ * @memberof module:CLI/Command/Project
+ * @param {object} argv - Command line arguments
+ * @param {string} cwd - Current working directory
+ * @returns {Promise<string>} - Validated directory path
+ */
 async function dirNameCheck (argv, cwd) {
   // check name
   const spinner = ora(__('Checking name')).start()

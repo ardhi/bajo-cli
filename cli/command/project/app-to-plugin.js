@@ -10,6 +10,12 @@ import { pick } from 'lodash-es'
 import { __ } from '../../lib/translate.js'
 import { checkNpmName, posName, registry } from '../../lib/option.js'
 
+/**
+ * Command definition object for converting a Bajo app to a plugin.
+ *
+ * @memberof module:CLI/Command/Project
+ * @type {TCommand}
+ */
 const appToPlugin = {
   command: __('%s <%s>', 'app-to-plugin', 'name'),
   aliases: ['ap'],

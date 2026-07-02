@@ -1,25 +1,52 @@
 import _path from 'path'
 
 /**
- * Plugin factory
+ * Plugin factory,
+ *
+ * **Never** call this function directly!!! It's only-meant to be called by the {@link https://ardhi.github.io/bajo|Bajo framework} during plugin initialization.
  *
  * @param {string} pkgName - NPM package name
- * @returns {class}
+ * @returns {BajoCli} - BajoCli class
  */
 async function factory (pkgName) {
   const me = this
   const { isFunction } = this.app.lib._
 
   /**
-   * BajoCli class
+   * BajoCli class definition.
    *
    * @class
    */
   class BajoCli extends this.app.baseClass.Base {
+    /**
+     * Constructor
+     */
     constructor () {
       super(pkgName, me.app)
+      /**
+       * @property {object} [config={}] - Configuration object
+       * @property {object} [config.applet={}] - Applet configuration object
+       * @property {boolean} [config.applet.save=false] - Whether to save the output of an applet to a file or not. Default: false
+       */
+      this.config = {
+        applet: {
+          save: false
+        }
+      }
     }
 
+    /**
+     * Private method to run a method from an applet.
+     *
+     * @async
+     * @method
+     * @private
+     * @param {object} applet - Applet object
+     * @param {string} path - Path to the method to be executed
+     * @param {...any} args - Arguments to be passed to the method
+     * @returns {Promise<any>} - Result of the executed method
+     * @see {BajoCli#runApplet} for the public method to run an applet
+     */
     _run = async (applet, path, ...args) => {
       const { importPkg, importModule } = this.app.bajo
       const { resolvePath } = this.app.lib.aneka
@@ -34,23 +61,37 @@ async function factory (pkgName) {
       })
       if (!path) {
         path = await select({
-          message: this.t('Please select a method:'),
+          message: this.t('selectMethod'),
           pageSize: 10,
           choices
         })
       }
       const item = find(choices, { value: path })
-      if (!item) this.fatal('Unknown method \'%s\'', path)
+      if (!item) this.fatal('unknownMethod%s', path)
       const mod = await importModule(item.file)
       return await mod.call(this.app[applet.ns], path, ...args)
     }
 
+    /**
+     * Get package information from NPM registry
+     *
+     * @async
+     * @method
+     * @param {string} name - Package name
+     * @returns {Promise<object>} - Package information
+     */
     getNpmPkgInfo = async (name) => {
       const { importModule } = this.app.bajo
       const getNpmPkgInfo = await importModule('bajoCli:/cli/lib/get-npm-pkg-info.js')
       return await getNpmPkgInfo(name)
     }
 
+    /**
+     * Get output format from configuration
+     *
+     * @method
+     * @returns {string} - Output format
+     */
     getOutputFormat = () => {
       const { without, map } = this.app.lib._
       const exts = map(without(this.app.getConfigFormats(), '.js'), ext => ext.slice(1))
@@ -60,12 +101,30 @@ async function factory (pkgName) {
       return format
     }
 
+    /**
+     * Draw a horizontal table
+     *
+     * @async
+     * @method
+     * @param  {...any} args - Arguments to be passed to the horizontal table
+     * @returns {Promise<any>} - Result of the horizontal table
+     */
     hTable = async (...args) => {
       const { importModule } = this.app.bajo
       const { horizontal } = await importModule('bajoCli:/cli/lib/create-table.js')
       return horizontal(...args)
     }
 
+    /**
+     * Pretty print an object
+     *
+     * @async
+     * @method
+     * @param {string|number|Array|Object} obj - Object to be pretty printed
+     * @param {boolean} [print=false] - Whether to print the result (if true) or return it (default: false)
+     * @param {Function} [titleFn] - Function to generate titles
+     * @returns {Promise<string>} - Pretty printed string
+     */
     prettyPrint = async (obj, print = false, titleFn) => {
       const { importModule } = this.app.bajo
       const { horizontal, vertical } = await importModule('bajoCli:/cli/lib/create-table.js', { asDefaultImport: false })
@@ -75,8 +134,19 @@ async function factory (pkgName) {
       else if (isArray(obj)) result = horizontal(obj, { print, titleFn })
       else result = vertical(obj, { print, titleFn })
       if (!print) return result
+      console.log(result)
     }
 
+    /**
+     * Run an applet
+     *
+     * @async
+     * @method
+     * @param {object} applet - Applet object
+     * @param {string} path - Path to the applet
+     * @param {...any} args - Arguments to be passed to the applet
+     * @returns {Promise<any>} - Result of the applet
+     */
     runApplet = async (applet, path, ...args) => {
       const { importModule } = this.app.bajo
       const mod = await importModule(applet.file)
@@ -85,12 +155,29 @@ async function factory (pkgName) {
       return await handler.call(this.app[applet.ns], path, ...args)
     }
 
+    /**
+     * Draw a vertical table
+     *
+     * @async
+     * @method
+     * @param  {...any} args - Arguments to be passed to the vertical table
+     * @returns {Promise<any>} - Result of the vertical table
+     */
     vTable = async (...args) => {
       const { importModule } = this.app.bajo
       const { vertical } = await importModule('bajoCli:/cli/lib/create-table.js')
       return vertical(...args)
     }
 
+    /**
+     * Write output to a file or console
+     *
+     * @async
+     * @method
+     * @param {object|array} content - Object or array to be written
+     * @param {string} path - Path to the output file. Ignored if `config.applet.save` is false.
+     * @param {boolean} terminate - Whether to terminate the process after writing
+     */
     writeOutput = async (content, path, terminate) => {
       const replacer = (k, v) => {
         if (isFunction(v) || ['app', 'plugin'].includes(k)) return undefined
@@ -108,7 +195,7 @@ async function factory (pkgName) {
         const writer = find(this.app.configHandlers, { ext: `.${format}` })
         result = await writer.writeHandler(result, true)
       }
-      if (this.app.bajo.config.save) {
+      if (this.config.applet.save) {
         const file = `/${path}.${format === 'pretty' ? '.txt' : format}`
         await saveAsDownload(file, stripAnsi(result))
       } else console.log(result)

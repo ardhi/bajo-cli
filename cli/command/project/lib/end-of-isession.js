@@ -1,6 +1,13 @@
 import select, { Separator } from '@inquirer/select'
 import { __ } from '../../../lib/translate.js'
 
+/**
+ * Prompt the user at the end of an interactive session.
+ *
+ * @async
+ * @memberof module:CLI/Command/Project
+ * @returns {Promise<string>} - User's choice
+ */
 async function endOfISession () {
   const answer = await select({
     message: __('End of interactive session. Continue?'),

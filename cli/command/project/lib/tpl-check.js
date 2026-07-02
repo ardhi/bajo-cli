@@ -3,7 +3,19 @@ import ora from 'ora'
 import listTpl from '../tpl/list-tpl.js'
 import { __ } from '../../../lib/translate.js'
 
-async function tplCheck ({ type, argv }) {
+/**
+ * Check if the specified template exists.
+ *
+ * @async
+ * @memberof module:CLI/Command/Project
+ * @param {object} options - Parameters
+ * @param {string} options.type - Template type
+ * @param {object} options.argv - Command line arguments
+ * @param {string} options.argv.tpl - Template name
+ * @returns {Promise<string|undefined>} - Template directory or undefined if not found
+ */
+async function tplCheck (options) {
+  const { type, argv } = options
   const dirs = await listTpl(type)
   let tplDir
   for (const d of dirs) {

@@ -7,7 +7,18 @@ import resolvePath from 'aneka/src/resolve-path.js'
 import { __ } from '../../../lib/translate.js'
 import { kebabCase, camelCase, upperFirst } from 'lodash-es'
 
-async function copyMain ({ cwd, argv }) {
+/**
+ * Copy the main plugin files to the target directory and update the main class.
+ *
+ * @async
+ * @memberof module:CLI/Command/Project
+ * @param {object} options - Parameters
+ * @param {string} options.cwd - Current working directory
+ * @param {object} options.argv - Command line arguments
+ * @returns {Promise<void>}
+ */
+async function copyMain (options) {
+  const { cwd, argv } = options
   const spinner = ora(__('Copy main plugin')).start()
   await delay(1000)
   const items = await fastGlob(`${argv.fromDir}/main/*`, { onlyFiles: false })

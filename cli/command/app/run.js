@@ -1,17 +1,23 @@
 import { spawn } from 'child_process'
 import epilog from '../../lib/epilog.js'
 import getCwdPkg from '../../lib/get-cwd-pkg.js'
-import boot from 'bajo/boot/index.js'
 import { has } from 'lodash-es'
 import ora from 'ora'
 import { __ } from '../../lib/translate.js'
 
 import util from 'util'
 import _terminate from 'terminate'
-import { applet, globalScope, posArgs, posName } from '../../lib/option.js'
+import * as option from '../../lib/option.js'
+const { applet, globalScope, posArgs, posName, spawn: spawnOpt } = option
 
 const terminate = util.promisify(_terminate)
 
+/**
+ * Command definition object for running a named application.
+ *
+ * @memberof module:CLI/Command/App
+ * @type {TCommand}
+ */
 const run = {
   command: __('%s <%s> [%s...]', 'run', 'name', 'args'),
   aliases: ['r'],
@@ -21,15 +27,14 @@ const run = {
     posArgs(yargs)
     globalScope(yargs)
     applet(yargs)
-    spawn(yargs)
+    spawnOpt(yargs)
     yargs.epilog(epilog)
   },
   async handler (argv) {
-    const { cwd, pkg } = await getCwdPkg({ argv, type: 'main' })
-    if (has(argv, 'tool')) argv.spawn = false
+    const { cwd, pkg } = await getCwdPkg({ argv, type: 'app' })
+    if (has(argv, 'applet')) argv.spawn = false
     if (argv.spawn) {
       const params = process.argv.slice(process.argv[2] === 'run' ? 4 : 5)
-      params.unshift(`--spawn=${argv.spawn}`)
       params.unshift(`${cwd}/${pkg.main}`)
       params.push(`--cwd=${cwd}`)
       const spinner = ora(__('Spawning %s...', pkg.name)).start()
@@ -54,7 +59,8 @@ const run = {
       }
     } else {
       process.argv = process.argv.slice(process.argv[2] === 'run' ? 2 : 3)
-      await boot(cwd)
+      const bajo = await import(`${cwd}/node_modules/bajo/index.js`)
+      await bajo.default({ cwd })
     }
   }
 }

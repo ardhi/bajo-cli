@@ -5,6 +5,12 @@ import { globalScope } from '../../lib/option.js'
 import { horizontal } from '../../lib/create-table.js'
 import { getFiles } from '../plugin/list.js'
 
+/**
+ * Command definition object for listing all installed applications.
+ *
+ * @memberof module:CLI/Command/App
+ * @type {TCommand}
+ */
 const list = {
   command: 'list',
   aliases: ['l'],
@@ -15,7 +21,7 @@ const list = {
   },
   async handler (argv) {
     const files = await getFiles(argv, 'app', !argv.global)
-    const picked = ['name', 'version', 'npmVersion', 'versionMatch', 'description']
+    const picked = ['base', 'name', 'version', 'npmVersion', 'versionMatch', 'description']
     const coll = await listPackages(files, 'app', argv, picked)
     horizontal(coll)
   }

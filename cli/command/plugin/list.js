@@ -8,6 +8,12 @@ import { fatal, __ } from '../../lib/translate.js'
 import { horizontal } from '../../lib/create-table.js'
 import { globalScope, npmVersion, onlyUnmatch, registry } from '../../lib/option.js'
 
+/**
+ * Command definition object for listing all installed plugins.
+ *
+ * @memberof module:CLI/Command/Plugin
+ * @type {TCommand}
+ */
 export async function getFiles (argv, type, checkRoot) {
   let files = []
   if (argv.global) {
@@ -26,7 +32,7 @@ export async function getFiles (argv, type, checkRoot) {
     }
     files = await fastGlob(pattern)
   }
-  if (files.length === 0) fatal('No %ss detected!', 'plugin')
+  if (files.length === 0) fatal('No %ss found!', 'plugin')
   return files
 }
 
@@ -42,7 +48,7 @@ const list = {
     yargs.epilog(epilog)
   },
   async handler (argv) {
-    const files = await getFiles(argv, 'plugin')
+    const files = await getFiles(argv, 'app')
     const picked = ['name', 'version', 'npmVersion', 'versionMatch', 'description']
     const coll = await listPackages(files, 'plugin', argv, picked)
     horizontal(coll)

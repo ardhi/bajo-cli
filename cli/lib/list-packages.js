@@ -17,7 +17,7 @@ async function listPackages (files = [], type, argv, picked) {
     } else coll.push(picked ? pick(info, picked) : info)
   }
   spinner.stop()
-  if (coll.length === 0) fatal('No %ss detected!', type)
+  if (coll.length === 0) fatal('No %ss found!', type)
   return coll
 }
 

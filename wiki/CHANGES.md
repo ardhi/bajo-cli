@@ -1,5 +1,5 @@
 # Changes
 
-## 2025-12-23
+## 2026-07-02
 
-- Rewrote to match ```bajo@2.2.x``` architecture
+- [2.3.0] Big updates to match the latest specs

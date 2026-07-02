@@ -1,11 +1,29 @@
 import { input } from '@inquirer/prompts'
 import semver from 'semver'
-import { get, without, trim, map } from 'lodash-es'
+import { get, without, trim, map, camelCase } from 'lodash-es'
 import { __ } from '../../../lib/translate.js'
 import boxen from 'boxen'
 
-async function buildPackageJson ({ argv, session, type }) {
+/**
+ * Build the package.json file for a new project.
+ *
+ * @async
+ * @memberof module:CLI/Command/Project
+ * @param {object} options - Parameters
+ * @param {object} options.argv - Command line arguments
+ * @param {object} options.session - Session data
+ * @param {string} options.type - Project type
+ * @returns {Promise<object>} - The generated package.json object
+ */
+async function buildPackageJson (options) {
+  const { argv, session, type } = options
   const pkg = { name: argv.name, type: 'module', main: 'index.js', bajo: { type } }
+  if (type === 'plugin') {
+    pkg.bajo.alias = await input({
+      message: __('Alias'),
+      default: get(session, 'pkg.bajo.alias', camelCase(argv.name).toLowerCase())
+    })
+  }
   pkg.version = await input({
     message: __('Version'),
     default: get(session, 'pkg.version', '0.0.1'),

@@ -5,6 +5,12 @@ import {} from 'lodash-es'
 
 export const usage = '...'
 
+/**
+ * Command definition object for managing projects.
+ *
+ * @memberof module:CLI/Command
+ * @type {TCommand}
+ */
 const project = buildCliSubcommand({
   command: __('%s <%s>', 'project', 'action'),
   aliases: ['j'],

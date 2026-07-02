@@ -32,19 +32,24 @@ export async function getRemotePkg (argv, type, original) {
   return pkg
 }
 
-async function getPkg (file, type, argv) {
+async function getPkg (file, type, argv = {}) {
   if (argv.remote) return await getRemotePkg(argv, type)
-  const validator = type === 'app' ? isValidApp : isValidPlugin
+  let validator = false
+  if (type === 'app') validator = isValidApp
+  else if (type === 'plugin') validator = isValidPlugin
   if (path.basename(file) !== 'package.json') file += '/package.json'
   if (!fs.existsSync(file)) return
   const pkg = readJson(file)
-  if (!validator(pkg, type)) return
+  if (validator && !validator(pkg, type)) return
+  if (type === 'app' && !argv.global) {
+    pkg.base = path.dirname(file).split('/').pop()
+  }
   if (argv.npmVersion) {
     const resp = await getNpmPkgInfo(pkg.name, argv.registry)
     pkg.npmVersion = resp ? get(resp, 'dist-tags.latest', last(keys(resp.versions))) : ''
     pkg.versionMatch = pkg.npmVersion === pkg.version
   } else {
-    await delay(10)
+    await delay(10) // to allow spinner to show up rotated
   }
   return pkg
 }

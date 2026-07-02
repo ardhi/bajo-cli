@@ -3,6 +3,13 @@ import fs from 'fs-extra'
 import ora from 'ora'
 import { __ } from '../../../lib/translate.js'
 
+/**
+ * Cancel project creation and optionally remove the project directory.
+ *
+ * @async
+ * @memberof module:CLI/Command/Project
+ * @returns {Promise<void>}
+ */
 async function cancelProject () {
   const cwd = process.cwd()
   const answer = await confirm({

@@ -4,6 +4,12 @@ import getGlobalPath from 'get-global-path'
 import resolvePath from 'aneka/src/resolve-path.js'
 import { __ } from '../../lib/translate.js'
 
+/**
+ * Command definition object for showing the npm global directory.
+ *
+ * @memberof module:CLI/Command/Misc
+ * @type {TCommand}
+ */
 const globalDir = {
   command: __('%s', 'gdir'),
   describe: __('Show npm global directory'),

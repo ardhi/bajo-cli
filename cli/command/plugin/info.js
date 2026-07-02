@@ -5,6 +5,12 @@ import getCwdPkg from '../../lib/get-cwd-pkg.js'
 import { __ } from '../../lib/translate.js'
 import { globalScope, npmVersion, posName, registry, remote } from '../../lib/option.js'
 
+/**
+ * Command definition object for showing detailed plugin information.
+ *
+ * @memberof module:CLI/Command/Plugin
+ * @type {TCommand}
+ */
 const info = {
   command: __('%s <%s>', 'info', 'name'),
   aliases: ['i'],

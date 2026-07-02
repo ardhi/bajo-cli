@@ -1,14 +1,15 @@
 {
   "name": "bajo-cli",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "CLI Interface & plugin for Bajo Framework",
   "main": "index.js",
   "scripts": {
     "build-doc": "jsdoc -c .jsdoc.conf.json",
-    "test": "mocha"
+    "test": "mocha",
+    "start": "node ./cli/run.js"
   },
   "bin": {
-    "bajo": "./run.js"
+    "bajo": "./cli/run.js"
   },
   "type": "module",
   "bajo": {
@@ -39,8 +40,7 @@
     "@inquirer/confirm": "^5.1.14",
     "@inquirer/prompts": "^7.8.2",
     "@inquirer/rawlist": "^4.1.5",
-    "aneka": "^0.7.4",
-    "bajo": "^1.2.9",
+    "aneka": "^0.15.0",
     "boxen": "^8.0.1",
     "cli-table3": "^0.6.5",
     "dayjs": "^1.11.13",
@@ -67,7 +67,9 @@
     "yargs": "^18.0.0"
   },
   "devDependencies": {
-    "clean-jsdoc-theme": "^4.3.0",
-    "jsdoc-plugin-intersection": "^1.0.4"
+    "chai": "^6.2.2",
+    "clean-jsdoc-theme": "^4.3.3",
+    "jsdoc-plugin-intersection": "^1.0.4",
+    "mocha": "^11.7.6"
   }
 }

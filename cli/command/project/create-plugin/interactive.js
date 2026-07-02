@@ -10,7 +10,6 @@ import modifyReadme from '../lib/modify-readme.js'
 import endOfISession from '../lib/end-of-isession.js'
 import tplCheck from '../lib/tpl-check.js'
 import { __ } from '../../../lib/translate.js'
-import fs from 'fs-extra'
 import ora from 'ora'
 import { isEmpty } from 'lodash-es'
 
@@ -26,6 +25,7 @@ async function interactive ({ argv, cwd, type, session }) {
   const pkg = session.pkg
   pkg.dependencies = pkg.dependencies ?? {}
   pkg.devDependencies = pkg.devDependencies ?? {}
+  if (session.ext.plugins.length) pkg.bajo.dependencies = session.ext.plugins
   argv.tpl = session.ext.tpl
   const tplDir = await tplCheck({ type, argv })
   await ensureDir(cwd)
@@ -35,12 +35,6 @@ async function interactive ({ argv, cwd, type, session }) {
   await modifyReadme({ cwd, argv })
   await copySkel({ cwd, tplDir })
   if (!(isEmpty(pkg.dependencies) && isEmpty(pkg.devDependencies))) await installPackages()
-  if (session.ext.dependencies.length > 0) {
-    const file = `${cwd}/index.js`
-    let content = fs.readFileSync(file, 'utf8')
-    content = content.replace('this.dependencies = []', `this.dependencies = ['${session.ext.dependencies.join(', ')}']`)
-    fs.writeFileSync(file, content, 'utf8')
-  }
   ora(__('Done!')).info()
 }
 

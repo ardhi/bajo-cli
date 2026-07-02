@@ -6,6 +6,12 @@ import { pick } from 'lodash-es'
 import ora from 'ora'
 import { registry } from '../../lib/option.js'
 
+/**
+ * Command definition object for showing detailed remote package info.
+ *
+ * @memberof module:CLI/Command/Misc
+ * @type {TCommand}
+ */
 const info = {
   command: __('%s <%s>', 'pkg', 'name'),
   describe: __('Show detailed remote package info'),

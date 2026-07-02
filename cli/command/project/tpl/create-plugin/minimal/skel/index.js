@@ -4,8 +4,6 @@ async function factory (pkgName) {
   return class {name} extends this.app.baseClass.Base {
     constructor () {
       super(pkgName, me.app)
-      this.alias = '{alias}'
-      this.dependencies = []
       this.config = {
       }
     }
@@ -16,7 +14,7 @@ async function factory (pkgName) {
     start = async () => {
     }
 
-    exit = async () => {
+    dispose = async () => {
     }
   }
 }

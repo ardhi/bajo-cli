@@ -26,19 +26,15 @@ async function interactive ({ argv, cwd, type, session }) {
   const pkg = session.pkg
   pkg.dependencies = pkg.dependencies ?? {}
   pkg.devDependencies = pkg.devDependencies ?? {}
-  pkg.packageManager = 'npm'
-  if (session.ext.bootFile !== 'local') pkg.dependencies['get-global-path'] = await getLatestPlugin('get-global-path')
-  else {
-    pkg.dependencies.bajo = await getLatestPlugin('bajo')
-    for (const p of session.ext.plugins) {
-      pkg.dependencies[p] = await getLatestPlugin(p, argv.registry, 'plugin')
-    }
+  pkg.dependencies.bajo = await getLatestPlugin('bajo')
+  for (const p of session.ext.plugins) {
+    pkg.dependencies[p] = await getLatestPlugin(p, argv.registry, 'plugin')
   }
   argv.tpl = session.ext.tpl
   const tplDir = await tplCheck({ type, argv })
   await ensureDir(cwd)
   await writePackageJson({ argv, cwd, pkg })
-  await copyRootFiles({ pkg, cwd, tplDir, files: ['.env', '.gitignore', 'README.md', `index-${session.ext.bootFile}.js:index.js`] })
+  await copyRootFiles({ pkg, cwd, tplDir, files: ['.env', '.gitignore', 'README.md', 'index.js'] })
   await modifyReadme({ cwd, argv })
   await copySkel({ cwd, tplDir })
   if (!(isEmpty(pkg.dependencies) && isEmpty(pkg.devDependencies))) await installPackages()

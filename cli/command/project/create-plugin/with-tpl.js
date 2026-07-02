@@ -9,7 +9,7 @@ import modifyReadme from '../lib/modify-readme.js'
 import tplCheck from '../lib/tpl-check.js'
 import { __ } from '../../../lib/translate.js'
 import ora from 'ora'
-import { isEmpty } from 'lodash-es'
+import { isEmpty, camelCase } from 'lodash-es'
 
 async function withTpl ({ argv, cwd, type }) {
   const tplDir = await tplCheck({ type, argv })
@@ -19,7 +19,8 @@ async function withTpl ({ argv, cwd, type }) {
   } catch (err) {
   }
   pkg.name = argv.name
-  pkg.packageManager = 'npm'
+  pkg.bajo.alias = camelCase(argv.name).toLowerCase()
+  // pkg.packageManager = 'npm'
   await ensureDir(cwd)
   await writePackageJson({ argv, cwd, pkg })
   await copyRootFiles({ pkg, cwd, tplDir, files: ['.env', '.gitignore', 'index.js', 'README.md'] })

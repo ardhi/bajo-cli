@@ -7,16 +7,27 @@ import path from 'path'
 import { __ } from '../../../lib/translate.js'
 
 const plugins = [
-  { value: 'bajo-config' },
   { value: 'bajo-extra' },
   { value: 'bajo-sysinfo' },
   { value: 'bajo-template' }
 ]
 
-async function customInstall ({ argv, type, session }) {
+/**
+ * Custom installation process for selecting templates and plugins.
+ *
+ * @async
+ * @memberof module:CLI/Command/Project
+ * @param {object} options - Parameters
+ * @param {object} options.argv - Command line arguments
+ * @param {string} options.type - Type of project (app or plugin)
+ * @param {object} options.session - Session information
+ * @returns {Promise<object>} - Selected options
+ */
+async function customInstall (options) {
+  const { type, session } = options
   const ext = {}
   const dirs = await listTpl(type)
-  const choices = []
+  let choices = []
   for (const d of dirs) {
     const name = path.basename(d)
     let info
@@ -33,9 +44,7 @@ async function customInstall ({ argv, type, session }) {
   })
   if (type === 'app') {
     let choices = [
-      { value: 'local', name: __('Local, self contained project') },
-      { value: 'global', name: __('Global, rely on bajo executable to start') },
-      { value: 'hybrid', name: __('Hybrid, the best of both worlds') }
+      { value: 'local', name: __('Local, self contained project') }
     ]
     const def = findIndex(choices, { value: get(session, 'ext.bootFile') })
     ext.bootFile = await rawlist({
@@ -52,17 +61,18 @@ async function customInstall ({ argv, type, session }) {
       default: get(session, 'ext.plugins', []),
       choices
     })
-  } else if (type === 'plugin') {
-    const choices = map(cloneDeep(plugins), p => {
-      p.checked = get(session, 'ext.dependencies', []).includes(p.value)
-      return p
-    })
-    ext.dependencies = await checkbox({
-      message: __('Choose your plugins dependencies:'),
-      default: get(session, 'ext.dependencies', []),
-      choices
-    })
   }
+  choices = map(cloneDeep(plugins), p => {
+    p.checked = get(session, 'ext.plugins', []).includes(p.value)
+    return p
+  })
+  const message = type === 'app' ? 'Choose which plugins should be included by default:' : 'Choose which plugins should be included as dependencies:'
+  ext.plugins = await checkbox({
+    message: __(message),
+    default: get(session, 'ext.plugins', []),
+    choices
+  })
+
   return ext
 }
 

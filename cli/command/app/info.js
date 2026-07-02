@@ -5,6 +5,12 @@ import getCwdPkg from '../../lib/get-cwd-pkg.js'
 import { __ } from '../../lib/translate.js'
 import { globalScope, posName } from '../../lib/option.js'
 
+/**
+ * Command definition object for showing detailed information about an application.
+ *
+ * @memberof module:CLI/Command/App
+ * @type {TCommand}
+ */
 const info = {
   command: __('%s <%s>', 'info', 'name'),
   aliases: ['i'],

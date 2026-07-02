@@ -1,0 +1,9 @@
+{
+  "selectMethod": "Please select a method:",
+  "unknownMethod%s": "Unknown method '%s'",
+  "packageName": "Package name:",
+  "mustProvideValue": "You must provide a valid value",
+  "retrieving": "Retrieving...",
+  "unknownPackage%s": "Unknown package '%s'. Aborted!",
+  "done": "Done!"
+}

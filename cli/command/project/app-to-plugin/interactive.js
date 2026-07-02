@@ -22,7 +22,6 @@ async function interactive ({ argv, cwd, type, session }) {
   const pkg = session.pkg
   pkg.dependencies = pkg.dependencies ?? {}
   pkg.devDependencies = pkg.devDependencies ?? {}
-  pkg.packageManager = pkg.packageManager ?? 'npm'
   argv.tpl = 'minimal'
   const tplDir = await tplCheck({ type, argv })
   await ensureDir(cwd)
