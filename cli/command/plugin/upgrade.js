@@ -13,7 +13,7 @@ import { getFiles } from './list.js'
  * Command definition object for upgrading all installed plugins to the latest version.
  *
  * @memberof module:CLI/Command/Plugin
- * @type {TCommand}
+ * @type {module:CLI/Command~TCommand}
  */
 const upgrade = {
   command: 'upgrade',

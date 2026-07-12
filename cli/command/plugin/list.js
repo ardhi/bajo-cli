@@ -12,7 +12,7 @@ import { globalScope, npmVersion, onlyUnmatch, registry } from '../../lib/option
  * Command definition object for listing all installed plugins.
  *
  * @memberof module:CLI/Command/Plugin
- * @type {TCommand}
+ * @type {module:CLI/Command~TCommand}
  */
 export async function getFiles (argv, type, checkRoot) {
   let files = []

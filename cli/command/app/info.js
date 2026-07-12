@@ -9,7 +9,7 @@ import { globalScope, posName } from '../../lib/option.js'
  * Command definition object for showing detailed information about an application.
  *
  * @memberof module:CLI/Command/App
- * @type {TCommand}
+ * @type {module:CLI/Command~TCommand}
  */
 const info = {
   command: __('%s <%s>', 'info', 'name'),

@@ -8,7 +8,7 @@ import { __ } from '../../lib/translate.js'
  * Command definition object for showing the npm global directory.
  *
  * @memberof module:CLI/Command/Misc
- * @type {TCommand}
+ * @type {module:CLI/Command~TCommand}
  */
 const globalDir = {
   command: __('%s', 'gdir'),

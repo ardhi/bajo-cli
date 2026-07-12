@@ -9,7 +9,7 @@ import { posTplType } from '../../lib/option.js'
  * Command definition object for listing project templates.
  *
  * @memberof module:CLI/Command/Project
- * @type {TCommand}
+ * @type {module:CLI/Command~TCommand}
  */
 const templates = {
   command: __('%s <%s>', 'templates', 'type'),

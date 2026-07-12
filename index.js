@@ -1,4 +1,5 @@
 import _path from 'path'
+import config from './lib/config.js'
 
 /**
  * Plugin factory,
@@ -24,15 +25,10 @@ async function factory (pkgName) {
     constructor () {
       super(pkgName, me.app)
       /**
-       * @property {object} [config={}] - Configuration object
-       * @property {object} [config.applet={}] - Applet configuration object
-       * @property {boolean} [config.applet.save=false] - Whether to save the output of an applet to a file or not. Default: false
+       * Configuration object.
+       * @type {BajoCli.TConfig}
        */
-      this.config = {
-        applet: {
-          save: false
-        }
-      }
+      this.config = config
     }
 
     /**

@@ -9,7 +9,7 @@ import { getFiles } from '../plugin/list.js'
  * Command definition object for listing all installed applications.
  *
  * @memberof module:CLI/Command/App
- * @type {TCommand}
+ * @type {module:CLI/Command~TCommand}
  */
 const list = {
   command: 'list',

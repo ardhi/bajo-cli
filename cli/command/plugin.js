@@ -7,7 +7,7 @@ import {} from 'lodash-es'
  * Command definition object for managing plugins.
  *
  * @memberof module:CLI/Command
- * @type {TCommand}
+ * @type {module:CLI/Command~TCommand}
  */
 const plugin = buildCliSubcommand({
   command: __('%s <%s>', 'plugin', 'action'),

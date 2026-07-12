@@ -9,7 +9,7 @@ import { globalScope, npmVersion, posName, registry, remote } from '../../lib/op
  * Command definition object for showing detailed plugin information.
  *
  * @memberof module:CLI/Command/Plugin
- * @type {TCommand}
+ * @type {module:CLI/Command~TCommand}
  */
 const info = {
   command: __('%s <%s>', 'info', 'name'),

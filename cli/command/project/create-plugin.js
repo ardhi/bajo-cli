@@ -10,7 +10,7 @@ import { checkNpmName, interactiveMode, posName, posTpl, registry, useCwd } from
  * Command definition object for creating a Bajo plugin project.
  *
  * @memberof module:CLI/Command/Project
- * @type {TCommand}
+ * @type {module:CLI/Command~TCommand}
  */
 const createPlugin = {
   command: __('%s <%s> [%s]', 'create-plugin', 'name', 'tpl'),

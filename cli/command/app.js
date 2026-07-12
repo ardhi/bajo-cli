@@ -7,9 +7,9 @@ import {} from 'lodash-es'
  * Command definition object for managing applications.
  *
  * @memberof module:CLI/Command
- * @type {TCommand}
+ * @type {module:CLI/Command~TCommand}
  */
-const project = buildCliSubcommand({
+const app = buildCliSubcommand({
   command: __('%s <%s>', 'app', 'action'),
   aliases: ['a'],
   describe: __('Apps manager'),
@@ -23,4 +23,4 @@ const project = buildCliSubcommand({
   commands
 })
 
-export default project
+export default app

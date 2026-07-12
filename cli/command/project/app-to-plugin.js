@@ -14,7 +14,7 @@ import { checkNpmName, posName, registry } from '../../lib/option.js'
  * Command definition object for converting a Bajo app to a plugin.
  *
  * @memberof module:CLI/Command/Project
- * @type {TCommand}
+ * @type {module:CLI/Command~TCommand}
  */
 const appToPlugin = {
   command: __('%s <%s>', 'app-to-plugin', 'name'),

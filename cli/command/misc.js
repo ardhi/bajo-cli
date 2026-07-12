@@ -7,7 +7,7 @@ import {} from 'lodash-es'
  * Command definition object for miscellaneous tools.
  *
  * @memberof module:CLI/Command
- * @type {TCommand}
+ * @type {module:CLI/Command~TCommand}
  */
 const misc = buildCliSubcommand({
   command: __('%s <%s>', 'misc', 'action'),

@@ -10,7 +10,7 @@ import { registry } from '../../lib/option.js'
  * Command definition object for showing detailed remote package info.
  *
  * @memberof module:CLI/Command/Misc
- * @type {TCommand}
+ * @type {module:CLI/Command~TCommand}
  */
 const info = {
   command: __('%s <%s>', 'pkg', 'name'),

@@ -1,5 +1,11 @@
 <p><img alt="Bajo Ecosystem" src="static/logo-ecosystem.png" height="200" /></p>
 
+# bajo-cli
+
+Official command line interface (CLI) for the [Bajo Framework](https://ardhi.github.io/bajo/). It provides a set of commands to manage and interact with Bajo applications. It is designed to be user-friendly and efficient, allowing developers to quickly perform common tasks such as creating new applications, managing dependencies, and running scripts.
+
+It also provides a set of libraries and foundation modules to use for Bajo applets.
+
 ## Hire Me
 
 If you have a Bajo Framework-based project and need a professional service or assistance, please <a href="https://github.com/ardhi#professional-service">click here</a>. I'd be happy to work on it at a competitive price and with fast turnaround!

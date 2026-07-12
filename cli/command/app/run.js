@@ -16,7 +16,7 @@ const terminate = util.promisify(_terminate)
  * Command definition object for running a named application.
  *
  * @memberof module:CLI/Command/App
- * @type {TCommand}
+ * @type {module:CLI/Command~TCommand}
  */
 const run = {
   command: __('%s <%s> [%s...]', 'run', 'name', 'args'),
